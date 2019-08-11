@@ -61,7 +61,7 @@ module.exports = {
    * 类型: string
    * 默认值: .vuepress/dist
    */
-  dest: '.vuepress/dist',
+  dest: 'docs/.vuepress/dist',
 
   /**
    * 提供多语言支持的语言配置
@@ -117,6 +117,7 @@ module.exports = {
     sidebar: {
       '/zh/blogs/': getBlogsSidebar('博客'),
       '/zh/categories/mac/': getCategoriesMacSidebar('mac'),
+      '/zh/categories/git/': getCategoriesGitSidebar('git'),
       '/zh/categories/vscode/': getCategoriesVscodeSidebar('vscode'),
       '/zh/guide/': getGuideSidebar('指南'),
     },
@@ -189,6 +190,18 @@ function getCategoriesMacSidebar(groupA) {
       collapsable: false,
       children: [
         'tree',
+      ]
+    },
+  ]
+}
+
+function getCategoriesGitSidebar(groupA) {
+  return [
+    {
+      title: groupA,
+      collapsable: false,
+      children: [
+        'uploadToGitHub',
       ]
     },
   ]

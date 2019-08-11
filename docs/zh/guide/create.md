@@ -67,6 +67,7 @@ yarn docs:build # 或者：npm run docs:build
 cd docs/
 mkdir .vuepress
 mkdir zh
+touch README.md
 
 # 配置 .vuepress 目录
 cd .vuepress
@@ -87,6 +88,7 @@ tree -a -L 2
 │   ├── config.js
 │   ├── nav
 │   └── public
+├── README.md
 └── zh
 ```
 
@@ -103,23 +105,23 @@ module.exports = {
    * 如 Github pages，如果你想将你的网站部署到 https://foo.github.io/bar/
    * 那么 base 应该被设置成 "/bar/"，它的值应当总是以斜杠开始，并以斜杠结束
    * 类型: string
-   * 默认值: / 
+   * 默认值: /
    */
-  base: '/',
+  base: "/",
 
   /**
    * 网站的标题，它将会被用作所有页面标题的前缀，同时，默认主题下，它将显示在导航栏（navbar）上
    * 类型: string
    * 默认值: undefined
    */
-  title: '最大的麦穗',
+  title: "最大的麦穗",
 
   /**
    * 网站的描述，它将会以 <meta> 标签渲染到当前页面的 HTML 中
    * 类型: string
    * 默认值: undefined
    */
-  description: '选择前，我们要慎重。选择时，我们要果断。选择后，我们要淡定。',
+  description: "选择前，我们要慎重。选择时，我们要果断。选择后，我们要淡定。",
 
   /**
    * 额外的需要被注入到当前页面的 HTML <head> 中的标签
@@ -128,10 +130,13 @@ module.exports = {
    * 默认值: []
    */
   head: [
-    ['link', {
-      rel: 'icon',
-      href: '/img/favicon.ico'
-    }],
+    [
+      "link",
+      {
+        rel: "icon",
+        href: "/img/favicon.ico"
+      }
+    ]
   ],
 
   /**
@@ -139,7 +144,7 @@ module.exports = {
    * 类型: string
    * 默认值: '0.0.0.0'
    */
-  host: '0.0.0.0',
+  host: "0.0.0.0",
 
   /**
    * 指定用于 dev server 的主机名
@@ -147,20 +152,20 @@ module.exports = {
    * 默认值: 8080
    */
   port: 8080,
-  
+
   /**
    * 指定客户端文件的临时目录
    * 类型: string
    * 默认值: /path/to/@vuepress/core/.temp
    */
-  temp: '/path/to/@vuepress/core/.temp',
+  temp: "/path/to/@vuepress/core/.temp",
 
   /**
    * 指定 vuepress build 的输出目录
    * 类型: string
    * 默认值: .vuepress/dist
    */
-  dest: '.vuepress/dist',
+  dest: ".vuepress/dist",
 
   /**
    * 提供多语言支持的语言配置
@@ -192,7 +197,7 @@ module.exports = {
    */
   extraWatchFiles: [
     // '.vuepress/nav/en.js',
-    '.vuepress/nav/zh.js',
+    ".vuepress/nav/zh.js"
   ],
 
   /**
@@ -221,10 +226,10 @@ module.exports = {
    * 如果你的对象只有那些 “常青树” 浏览器，你可以将其设置成 true
    * 这将会禁止 ESNext 到 ES5 的转译以及对 IE 的 polyfills，同时会带来更快的构建速度和更小的文件体积
    * 类型: boolean|Function
-   * 默认值: false  
+   * 默认值: false
    */
-  evergreen: false,
-}
+  evergreen: false
+};
 ```
 
 注意这里已经在 docs/.vuepress/public/img 目录下放入了 favicon.ico 图标
@@ -236,10 +241,10 @@ module.exports = {
 ```js
 module.exports = [
   {
-    text: '搭建指南',
-    link: '/zh/guide/create.md'
-  },
-]
+    text: "搭建指南",
+    link: "/zh/guide/create.md"
+  }
+];
 ```
 
 修改 docs/.vuepress/config.js 中的 themeConfig，参考官网 [默认主题配置](https://v1.vuepress.vuejs.org/zh/theme/default-theme-config.html)
@@ -253,20 +258,20 @@ themeConfig: {
   sidebar: {
     '/zh/guide/': getGuideSidebar('指南'),
   },
-  
+
   // 最后更新时间
   lastUpdated: 'Last Updated', // string | boolean
-  
+
   // 假定是 GitHub. 同时也可以是一个完整的 GitLab URL
   repo: 'xiaoxuefengnian/wheatear',
-  
+
   // 自定义仓库链接文字。默认从 `themeConfig.repo` 中自动推断为
   // "GitHub"/"GitLab"/"Bitbucket" 其中之一，或是 "Source"。
   // repoLabel: '查看源码',
 
   // 默认是 false, 设置为 true 来启用
   editLinks: true,
-    
+
   // 默认为 "Edit this page"
   editLinkText: '帮助我们改善此页面！'
 }
