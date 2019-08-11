@@ -268,7 +268,7 @@ themeConfig: {
   // 以下为可选的编辑链接选项
 
   // 假如你的文档仓库和项目本身不在一个仓库：
-  docsRepo: 'xiaoxuefengnian/xiaoxuefengnian.github.io',
+  docsRepo: 'xiaoxuefengnian/wheatear',
 
   // 假如文档不是放在仓库的根目录下：
   docsDir: 'docs',
