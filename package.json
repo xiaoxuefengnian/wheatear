@@ -8,5 +8,9 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "deploy": "bash deploy.sh"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "moment": "^2.24.0"
   }
 }

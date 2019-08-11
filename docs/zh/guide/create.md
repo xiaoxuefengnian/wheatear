@@ -260,7 +260,7 @@ themeConfig: {
   },
 
   // 最后更新时间
-  lastUpdated: 'Last Updated', // string | boolean
+  lastUpdated: '上次更新', // string | boolean
 
   // 假定是 GitHub. 同时也可以是一个完整的 GitLab URL
   repo: 'xiaoxuefengnian/wheatear',

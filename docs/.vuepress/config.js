@@ -123,7 +123,7 @@ module.exports = {
     },
 
     // 最后更新时间
-    lastUpdated: 'Last Updated', // string | boolean
+    lastUpdated: '上次更新', // string | boolean
 
     // 假定是 GitHub. 同时也可以是一个完整的 GitLab URL
     repo: 'xiaoxuefengnian/wheatear',
@@ -158,6 +158,17 @@ module.exports = {
   plugins: [
     ['@vuepress/back-to-top', true],
     '@vuepress/nprogress',
+    [
+      '@vuepress/last-updated',
+      {
+        transformer: (timestamp, lang) => {
+          // 不要忘了安装 moment
+          const moment = require('moment')
+          moment.locale('zh-CN')
+          return moment(timestamp).fromNow()
+        }
+      }
+    ]
   ],
 
   /**
@@ -176,7 +187,9 @@ function getGuideSidebar(groupA) {
       collapsable: false,
       children: [
         'create',
-        'deploy'
+        'deploy',
+        'locales',
+        'auto',
       ]
     },
   ]
