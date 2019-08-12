@@ -104,7 +104,7 @@ module.exports = {
    * 类型: string
    * 默认值: undefined
    */
-  theme: undefined,
+  // theme: undefined,
 
   /**
    * 为当前的主题提供一些配置，这些选项依赖于你正在使用的主题
@@ -145,6 +145,17 @@ module.exports = {
     // 默认为 "Edit this page"
     editLinkText: '编辑文档'
   },
+
+  /**
+   * markdown 配置
+   * 类型: Object
+   * 默认值: {}
+   */
+  markdown: {
+    // 是否在每个代码块的左侧显示行号
+    // lineNumbers: true
+  },
+
 
   /**
    * 插件
