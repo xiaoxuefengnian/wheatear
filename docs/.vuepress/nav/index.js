@@ -27,6 +27,8 @@ function getDirectoryFiles(currentDirectoryPath) {
   const files = directoryFiles.map(dirent => {
     const file = {
       originName: dirent.name,
+      // 用于处理路径相关的 = dirent.name 只在README.md 时 = '' 
+      pathName: dirent.name,
       text: undefined,
       link: `/${currentDirectoryPath}/${dirent.name}`,
       children: undefined,
@@ -36,20 +38,21 @@ function getDirectoryFiles(currentDirectoryPath) {
     if (dirent.isFile()) {
       if (dirent.name === 'README.md') {
         file.text = '';
-        hasReadme = true;
+        file.pathName = '',
+          hasReadme = true;
       } else {
-        file.text = getFileName(dirent.name);
+        file.text = getFileName(dirent);
       }
     } else if (dirent.isDirectory()) {
       const childrenFiles = getDirectoryFiles(`${currentDirectoryPath}/${dirent.name}`);
-      file.text = getFileName(dirent.name);
+      file.text = getFileName(dirent);
       file.children = childrenFiles.files;
       file.hasReadme = childrenFiles.hasReadme;
       file.isPureDirectory = childrenFiles.isPureDirectory;
       isPureDirectory = false;
     }
     return file;
-  }).sort((a, b) => a.originName - b.originName);
+  }).sort((a, b) => a.pathName ? a.pathName - b.pathName : -1); // 始终将 README.md 放在第一个
 
   return {
     files,
@@ -60,17 +63,24 @@ function getDirectoryFiles(currentDirectoryPath) {
 
 /**
  * 获取文档/目录名称
- * @param {string} fileName 
+ * @param {Object} dirent 
  */
-function getFileName(fileName) {
+function getFileName(dirent) {
+  const fileName = dirent.name;
   // 形如 数字.name.类型 其中数字和类型是可选的
   // 例 1.aa.md | bb.md | cc
   const lastIndex = fileName.lastIndexOf('.');
   if (lastIndex === -1) return fileName;
-  const nameWithSuffix = fileName.substring(0, lastIndex);
-  const firstIndex = nameWithSuffix.indexOf('.');
-  if (firstIndex === -1) return nameWithSuffix;
-  return nameWithSuffix.substring(firstIndex + 1);
+
+  let nameWithoutSuffix;
+  if (dirent.isFile()) {
+    nameWithoutSuffix = fileName.substring(0, lastIndex);
+  } else {
+    nameWithoutSuffix = fileName;
+  }
+  const firstIndex = fileName.indexOf('.');
+  if (firstIndex === -1) return nameWithoutSuffix;
+  return nameWithoutSuffix.substring(firstIndex + 1);
 }
 
 /**
@@ -84,7 +94,7 @@ function getItems(files) {
         return {
           text: file.text,
           // 没有 README.md 时取第一个子文件
-          link: file.hasReadme ? `${file.link}/` : `${file.link}/${file.children[0].text}`,
+          link: file.hasReadme ? `${file.link}/` : `${file.link}/${file.children[0].pathName}`,
         }
       }
       return {
@@ -107,7 +117,7 @@ function getSidebar(files) {
         sidebar[`${file.link}/`] = [{
           title: file.text,
           collapsable: false,
-          children: file.children.map(x => x.text)
+          children: file.children.map(x => x.pathName)
         }]
       } else if (file.children.length > 0) {
         getChildren(file.children);
@@ -124,7 +134,7 @@ function getSidebar(files) {
 // const { files } = getDirectoryFiles(lang);
 // const nav = getItems(files);
 // const sidebar = getSidebar(files);
-// console.log(files)
+// console.log(files);
 // console.log(nav);
 // console.log(sidebar);
 
