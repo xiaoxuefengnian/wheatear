@@ -22,6 +22,9 @@ tree -d
 # 过滤 node_modules 文件夹
 tree -I “node_modules”
 
+# 使用|同时排除掉多个文件夹
+tree -I "node_modules|cache|test_*"
+
 # 把一个目录的结构树导出到文件 Readme.md
 tree -L 1 > Readme.md
 ```

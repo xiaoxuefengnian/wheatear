@@ -1,3 +1,5 @@
+const { nav, sidebar } = require('./nav/zh');
+
 module.exports = {
   /**
    * 部署站点的基础路径，如果你想让你的网站部署到一个子路径下，你将需要设置它
@@ -111,16 +113,10 @@ module.exports = {
    */
   themeConfig: {
     // 导航栏
-    nav: require('./nav/zh'),
+    nav,
 
     // 侧边栏
-    sidebar: {
-      '/zh/blogs/': getBlogsSidebar('博客'),
-      '/zh/categories/mac/': getCategoriesMacSidebar('mac'),
-      '/zh/categories/git/': getCategoriesGitSidebar('git'),
-      '/zh/categories/vscode/': getCategoriesVscodeSidebar('vscode'),
-      '/zh/guide/': getGuideSidebar('指南'),
-    },
+    sidebar,
 
     // 最后更新时间
     lastUpdated: '上次更新', // string | boolean
@@ -178,67 +174,4 @@ module.exports = {
    * 默认值: false  
    */
   evergreen: false,
-}
-
-function getGuideSidebar(groupA) {
-  return [
-    {
-      title: groupA,
-      collapsable: false,
-      children: [
-        'create',
-        'deploy',
-        'locales',
-        'auto',
-      ]
-    },
-  ]
-}
-
-function getBlogsSidebar(groupA) {
-  return [
-    {
-      title: groupA,
-      collapsable: false,
-      children: [
-        '',
-      ]
-    }
-  ]
-}
-
-function getCategoriesMacSidebar(groupA) {
-  return [
-    {
-      title: groupA,
-      collapsable: false,
-      children: [
-        'tree',
-      ]
-    },
-  ]
-}
-
-function getCategoriesGitSidebar(groupA) {
-  return [
-    {
-      title: groupA,
-      collapsable: false,
-      children: [
-        'uploadToGitHub',
-      ]
-    },
-  ]
-}
-
-function getCategoriesVscodeSidebar(groupA) {
-  return [
-    {
-      title: groupA,
-      collapsable: false,
-      children: [
-        'snippets',
-      ]
-    },
-  ]
 }
