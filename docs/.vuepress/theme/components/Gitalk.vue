@@ -1,5 +1,7 @@
 <template>
-  <div id="gitalk-container"></div>
+  <div id="gitalk-container"
+    class="gitalk-container">
+  </div>
 </template>
 
 <script>
@@ -27,3 +29,14 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scope>
+.gitalk-container
+  max-width $contentWidth
+  margin 0 auto
+  padding 0 2.5rem 2rem 2.5rem
+  @media (max-width: $MQNarrow)
+    padding 0 2rem 2rem 2rem
+  @media (max-width: $MQMobileNarrow)
+    padding 0 1.5rem 1.5rem 1.5rem
+</style>
