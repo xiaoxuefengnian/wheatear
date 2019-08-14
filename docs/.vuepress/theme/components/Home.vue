@@ -40,6 +40,8 @@
 
     <Content class="theme-default-content custom"/>
 
+    <gt></gt>
+
     <div
       class="footer"
       v-if="data.footer"
@@ -51,9 +53,10 @@
 
 <script>
 import NavLink from '@parent-theme/components/NavLink.vue'
+import gt from '@theme/components/Gitalk.vue'
 
 export default {
-  components: { NavLink },
+  components: { NavLink,gt },
 
   computed: {
     data () {

@@ -39,7 +39,7 @@
         name="page-top"
         slot="top"
       />
-      <slot
+      <slot 
         name="page-bottom"
         slot="bottom"
       />

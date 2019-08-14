@@ -172,7 +172,7 @@ module.exports = {
           // 不要忘了安装 moment
           const moment = require('moment')
           moment.locale('zh-CN')
-          return moment(timestamp).fromNow()
+          return moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
         }
       }
     ]
