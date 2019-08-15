@@ -3,8 +3,8 @@
     :class="pageClasses"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd">
-
-    <BaiduTongji></BaiduTongji>ß
+    
+    <BaiduTongji></BaiduTongji>
 
     <Navbar v-if="shouldShowNavbar"
       @toggle-sidebar="toggleSidebar" />
@@ -45,7 +45,7 @@ import Gitalk from '@theme/components/Gitalk.vue'
 import BaiduTongji from '@theme/analysis/BaiduTongji.vue'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar, Gitalk, BaiduTongji },
+  components: { Home, Page, Sidebar, Navbar, Gitalk,BaiduTongji },
 
   data() {
     return {
