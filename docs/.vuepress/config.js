@@ -175,7 +175,13 @@ module.exports = {
           return moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
         }
       }
-    ]
+    ],
+    [
+      '@vuepress/google-analytics',
+      {
+        'ga': 'UA-145771476-1' // Google Analytics ID 
+      }
+    ],
   ],
 
   /**

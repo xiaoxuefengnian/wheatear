@@ -3,6 +3,9 @@
     :class="pageClasses"
     @touchstart="onTouchStart"
     @touchend="onTouchEnd">
+
+    <BaiduTongji></BaiduTongji>ß
+
     <Navbar v-if="shouldShowNavbar"
       @toggle-sidebar="toggleSidebar" />
 
@@ -37,10 +40,12 @@ import Navbar from '@parent-theme/components/Navbar.vue'
 import Page from '@parent-theme/components/Page.vue'
 import Sidebar from '@parent-theme/components/Sidebar.vue'
 import { resolveSidebarItems } from '../util'
+
 import Gitalk from '@theme/components/Gitalk.vue'
+import BaiduTongji from '@theme/analysis/BaiduTongji.vue'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar, Gitalk },
+  components: { Home, Page, Sidebar, Navbar, Gitalk, BaiduTongji },
 
   data() {
     return {
