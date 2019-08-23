@@ -22,7 +22,7 @@ module.exports = {
    * 类型: string
    * 默认值: undefined
    */
-  description: '选择前，我们要慎重。选择时，我们要果断。选择后，我们要淡定。',
+  description: '最大的一穗就是你刚刚摘下的',
 
   /**
    * 额外的需要被注入到当前页面的 HTML <head> 中的标签

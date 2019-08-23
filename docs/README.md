@@ -15,3 +15,4 @@ tagline: 敬请期待
 footer: Copyright © 2019 | Rui Zhou | China
 ---
 
+<!-- 选择前，我们要慎重。选择时，我们要果断。选择后，我们要淡定。 -->
