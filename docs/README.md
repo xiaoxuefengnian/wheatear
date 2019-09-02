@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /img/me.png
-heroText: 首页开发中  
+heroText: 持续更新中
 tagline: 敬请期待
 # actionText: 快速上手 →
 # actionLink: /zh/guide/
@@ -16,3 +16,4 @@ footer: Copyright © 2019 | Rui Zhou | China 🇨🇳
 ---
 
 <!-- 选择前，我们要慎重。选择时，我们要果断。选择后，我们要淡定。 -->
+<!-- 童心已深藏 -->
