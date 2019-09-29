@@ -13,7 +13,7 @@ const index = argv.findIndex(x => x === '--');
 let options = [];
 let env = 'development';
 if (index !== -1) {
-  options = argv.slice(index);
+  options = argv.slice(index + 1);
   env = ['development', 'production'].includes(options[0]) ? options[0] : env;
 }
 
