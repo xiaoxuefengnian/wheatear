@@ -7,8 +7,8 @@
     "vuepress": "^1.0.3"
   },
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
+    "docs:dev": "vuepress dev docs -- development",
+    "docs:build": "vuepress build docs -- production",
     "deploy": "bash deploy.sh"
   },
   "dependencies": {

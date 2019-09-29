@@ -7,58 +7,91 @@ const targetDirectory = 'docs';
 const lastIndex = source.lastIndexOf(targetDirectory);
 const targetPath = source.substring(0, lastIndex + targetDirectory.length);
 
-// 排除以下文件
-const excludes = ['.DS_Store'];
+// 获取参数 第一个参数为环境 development/production
+const { argv } = process;
+const index = argv.findIndex(x => x === '--');
+let options = [];
+let env = 'development';
+if (index !== -1) {
+  options = argv.slice(index);
+  env = ['development', 'production'].includes(options[0]) ? options[0] : env;
+}
+
+// 默认 排除以下文件 其余在 .productionignore 中设置
+const excludes = [
+  '.DS_Store',
+  '.productionignore'
+];
 
 /**
  * 获取当前目录下的文档/目录
  * @param {string} currentDirectoryPath 包含 lang 及之后的路径
  */
 function getDirectoryFiles(currentDirectoryPath) {
-  const directoryFiles = fse.readdirSync(`${targetPath}/${currentDirectoryPath}`, {
-    encoding: 'utf8',
-    withFileTypes: true,
-  }).filter(dirent => !excludes.includes(dirent.name));
+  let [excludesFiles, ignoreList] = [[], []];
+  if (env === 'development') {
+    excludesFiles = [...excludes];
+  } else if (env === 'production') {
+    try {
+      const ignoreFile = fse.readFileSync(`${targetPath}/${currentDirectoryPath}/.productionignore`, {
+        encoding: 'utf8',
+        withFileTypes: true,
+      });
+      ignoreList = ignoreFile.split('\n');
+    } catch (error) {
 
-  let hasReadme = false;
-  // 没有子目录的目录
-  let isPureDirectory = true;
-
-  const files = directoryFiles.map(dirent => {
-    const file = {
-      originName: dirent.name,
-      // 用于处理路径相关的 = dirent.name 只在README.md 时 = '' 
-      pathName: dirent.name,
-      text: undefined,
-      link: `/${currentDirectoryPath}/${dirent.name}`,
-      children: undefined,
-      hasReadme: undefined,
-      isPureDirectory: true,
-    };
-    if (dirent.isFile()) {
-      if (dirent.name === 'README.md') {
-        file.text = '';
-        file.pathName = '',
-          hasReadme = true;
-      } else {
-        file.text = getFileName(dirent);
-      }
-    } else if (dirent.isDirectory()) {
-      const childrenFiles = getDirectoryFiles(`${currentDirectoryPath}/${dirent.name}`);
-      file.text = getFileName(dirent);
-      file.children = childrenFiles.files;
-      file.hasReadme = childrenFiles.hasReadme;
-      file.isPureDirectory = childrenFiles.isPureDirectory;
-      isPureDirectory = false;
     }
-    return file;
-  }).sort((a, b) => a.pathName ? a.pathName - b.pathName : -1); // 始终将 README.md 放在第一个
-
-  return {
-    files,
-    hasReadme,
-    isPureDirectory,
+    excludesFiles = [...excludes, ...ignoreList];
   }
+
+  const func = (path) => {
+    const directoryFiles = fse.readdirSync(`${targetPath}/${path}`, {
+      encoding: 'utf8',
+      withFileTypes: true,
+    }).filter(dirent => !excludesFiles.includes(dirent.name));
+
+    let hasReadme = false;
+    // 没有子目录的目录
+    let isPureDirectory = true;
+
+    const files = directoryFiles.map(dirent => {
+      const file = {
+        originName: dirent.name,
+        // 用于处理路径相关的 = dirent.name 只在README.md 时 = '' 
+        pathName: dirent.name,
+        text: undefined,
+        link: `/${path}/${dirent.name}`,
+        children: undefined,
+        hasReadme: undefined,
+        isPureDirectory: true,
+      };
+      if (dirent.isFile()) {
+        if (dirent.name === 'README.md') {
+          file.text = '';
+          file.pathName = '',
+            hasReadme = true;
+        } else {
+          file.text = getFileName(dirent);
+        }
+      } else if (dirent.isDirectory()) {
+        const childrenFiles = func(`${path}/${dirent.name}`);
+        file.text = getFileName(dirent);
+        file.children = childrenFiles.files;
+        file.hasReadme = childrenFiles.hasReadme;
+        file.isPureDirectory = childrenFiles.isPureDirectory;
+        isPureDirectory = false;
+      }
+      return file;
+    }).sort((a, b) => a.pathName ? a.pathName - b.pathName : -1); // 始终将 README.md 放在第一个
+
+    return {
+      files,
+      hasReadme,
+      isPureDirectory,
+    };
+  }
+
+  return func(currentDirectoryPath);
 }
 
 /**
