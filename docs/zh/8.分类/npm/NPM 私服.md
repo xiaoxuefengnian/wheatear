@@ -14,8 +14,8 @@
 
 ```bash
 # 运行
-nexus.exe /install 
-# 成功后会提示 
+nexus.exe /install
+# 成功后会提示
 Installed service 'nexus‘
 
 # 启动服务
@@ -26,9 +26,9 @@ Started Sonatype Nexus OSS 3.18.1-01
 
 3、等待启动完毕后，进入 http://127.0.0.1:8081, 点击右上角 Sign In 登陆
 
-默认账号： admin 
+默认账号： admin
 
-密码：在解压后目录的sonatype-work\nexus3\admin.password
+密码：在解压后目录的 sonatype-work\nexus3\admin.password
 
 4、重置 admin 的密码，如 admin123
 
@@ -44,7 +44,7 @@ npm(group) 表示分组，npm(hosted) 表示本机私有，npm(proxy) 表示远�
 
 8、创建 npm(proxy) 用于将包请求代理到指定地址， Name 填入 npm-proxy，remote storage 填入 https://registry.npm.taobao.org 或 https://registry.npmjs.org
 
-9、创建 npm(hosted) 用于存放自己的私有包，Name 填入 npm-hosted 
+9、创建 npm(hosted) 用于存放自己的私有包，Name 填入 npm-hosted
 
 10、创建 npm(group)，Name 填入 npm-group，下面 Members 里选择之前添加的 2 个移动到右边，如果左边的列表中没有，点一下右上角的刷新按钮
 
@@ -57,7 +57,7 @@ npm config set registry http://localhost:8081/repository/npm-group/
 npm --loglevel info install jquery
 ```
 
-浏览器中  http://127.0.0.1:8081 中 Browse -- Search -- npm 下可查看已缓存的包
+浏览器中 http://127.0.0.1:8081 中 Browse -- Search -- npm 下可查看已缓存的包
 
 ### 常见错误
 

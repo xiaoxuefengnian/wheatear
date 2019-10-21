@@ -4,10 +4,11 @@
     "style": "atx"
   },
   "MD007": {
-    "indent": 4
+    "indent": 2
   },
   "MD013": false,
   "MD034": false,
+  "MD036": false,
   "MD041": false,
   "no-hard-tabs": false
 }
