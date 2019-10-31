@@ -182,6 +182,7 @@ module.exports = {
         'ga': 'UA-145771476-1' // Google Analytics ID 
       }
     ],
+    ['@vuepress/medium-zoom'],
   ],
 
   /**

@@ -3,6 +3,7 @@
     "@types/fs-extra": "^8.0.0",
     "@vuepress/plugin-back-to-top": "^1.0.3",
     "@vuepress/plugin-google-analytics": "^1.0.3",
+    "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
     "@vuepress/plugin-nprogress": "^1.0.3",
     "vuepress": "^1.0.3"
   },
