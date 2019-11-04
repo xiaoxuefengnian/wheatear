@@ -1,8 +1,8 @@
-# 将本地项目发布到GitHub上
+# 将本地项目发布到 GitHub 上
 
 以本项目 wheatear 为例
 
-在 GitHub上新建一个名为 wheatear 的仓库
+在 GitHub 上新建一个名为 wheatear 的仓库
 
 在终端打开项目根目录
 
@@ -35,6 +35,6 @@ hint: 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 
 # 解决方案：
-$ git pull --rebase origin master
-$ git push -u origin master
+git pull --rebase origin master
+git push -u origin master
 ```
