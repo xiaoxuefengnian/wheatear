@@ -4,6 +4,8 @@
 
 ### 通过 webRTC 方式实现
 
+在 safari 上需勾选 开发 - WebRTC - 停用 ICE 候选地址限制
+
 ```javascript
 // 获取用户ip
 const getUserIP = callback => {
