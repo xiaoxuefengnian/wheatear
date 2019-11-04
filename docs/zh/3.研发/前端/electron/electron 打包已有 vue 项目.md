@@ -83,6 +83,11 @@ electron_build：打包生产环境
 
 electron-packager：./dist/表示将 dist 目录下所有文件打包 test 表示打包之后的名字 --out 表示输出 release 表示输出路径 --overwrite 表示覆盖
 
+```bash
+# 执行
+npm run electron_build
+```
+
 最终打完的包在 targetVue/release/ 目录下
 
 5、这里只是进行了简单的打包，实际过程中还需要继续丰富入口文件的代码，并对项目中的部分功能进行改写。
