@@ -4,6 +4,8 @@
 
 ## 常用指令
 
+[Git-命令-快照基础](https://git-scm.com/book/zh/v2/附录-C%3A-Git-命令-快照基础)
+
 ```bash
 # 查看状态
 git status

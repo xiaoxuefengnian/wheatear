@@ -2,11 +2,11 @@
 
 通过 [electron-vue 的 gitbook](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/) 了解其项目结构
 
-## 1、选择理由
+## 选择理由
 
 开发环境下可以热更新，这点就够了
 
-## 2、分析
+## 分析
 
 **改造的不利点**
 
@@ -20,7 +20,7 @@ a、webpack 的配置中 @ 的路径是 src/renderer，不需要再去配置
 
 b、文件树结构及引用关系同 vue 项目下基本一致
 
-## 3、改造步骤
+## 改造步骤
 
 **a、处理依赖包**
 
@@ -52,7 +52,7 @@ utils - store - api - router - components
 
 默认是 9080，改成自己配置的测试原 vue 项目 build 后的文件的端口
 
-## 4、常见错误
+## 常见问题
 
 ### vuex 的 dispatch 无法使用
 

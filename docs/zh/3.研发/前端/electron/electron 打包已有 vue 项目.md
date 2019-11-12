@@ -2,7 +2,7 @@
 
 假设 已有 vue 项目的目录是 targetVue/
 
-## 1、准备
+## 准备
 
 安装 electron 和 electron-packager
 
@@ -11,7 +11,7 @@ npm install electron --save-dev
 npm install electron-packager -g
 ```
 
-## 2、入口
+## 入口
 
 新建文件 targetVue/electronmain.js
 
@@ -54,7 +54,7 @@ app.on("ready", () => {
 });
 ```
 
-## 3、脚本
+## 脚本
 
 修改 targetVue/config/index.js 中 build 的 assetsPublicPath
 
@@ -89,7 +89,7 @@ electron_build：打包生产环境
 
 electron-packager：./dist/表示将 dist 目录下所有文件打包 test 表示打包之后的名字 --out 表示输出 release 表示输出路径 --overwrite 表示覆盖
 
-## 4、打包
+## 打包
 
 ```bash
 # 执行
