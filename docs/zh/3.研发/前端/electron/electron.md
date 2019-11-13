@@ -81,6 +81,8 @@ icon 应用图标
 
 out 打包后的应用存放目录
 
+## 自动更新
+
 ## 常见问题
 
 ### 打包慢，无反应
@@ -91,3 +93,13 @@ electron-packager 在当前机器的首次打包前，会下载 electron 的预�
 # 更换阿里镜像源
 npm config set ELECTRON_MIRROR http://npm.taobao.org/mirrors/electron/
 ```
+
+### 安装时出现权限问题
+
+[npm 安装 electron 死活安不上](https://v2ex.com/t/616680)
+
+windows 下安装 electron-packager 出现权限问题 operation not permitted
+
+删除 C:\Users\\{账户}\ 下的 .npmrc 文件
+
+只设置淘宝源，不设置 electron 的阿里镜像源
