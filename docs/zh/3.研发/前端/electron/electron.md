@@ -65,8 +65,8 @@ webPreferences: {
 ```json
 "scripts": {
   "package-mac": "electron-packager . electron-tutorial-app --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
-  "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
-  "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
+  "package-win": "electron-packager . electron-tutorial-app --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
+  "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
  }
 }
 ```
@@ -91,7 +91,7 @@ electron-packager 在当前机器的首次打包前，会下载 electron 的预�
 
 ```bash
 # 更换阿里镜像源
-npm config set ELECTRON_MIRROR http://npm.taobao.org/mirrors/electron/
+npm config set ELECTRON_MIRROR https://npm.taobao.org/mirrors/electron/
 ```
 
 ### 安装时出现权限问题

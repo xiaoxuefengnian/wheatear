@@ -18,8 +18,11 @@ if (index !== -1) {
 }
 
 // 默认 排除以下文件 其余在 .productionignore 中设置
-const excludes = [
+// 始终需要排除的目录
+const excludesEver = [
   '.DS_Store',
+];
+const excludes = [
   '.productionignore'
 ];
 
@@ -43,12 +46,13 @@ function getDirectoryFiles(currentDirectoryPath) {
     }
     excludesFiles = [...excludes, ...ignoreList];
   }
+  excludesFiles = excludesFiles.map(x => `${currentDirectoryPath}/${x}`);
 
   const func = (path) => {
     const directoryFiles = fse.readdirSync(`${targetPath}/${path}`, {
       encoding: 'utf8',
       withFileTypes: true,
-    }).filter(dirent => !excludesFiles.includes(dirent.name));
+    }).filter(dirent => !excludesEver.includes(dirent.name) && !excludesFiles.includes(`${path}/${dirent.name}`));
 
     let hasReadme = false;
     // 没有子目录的目录
