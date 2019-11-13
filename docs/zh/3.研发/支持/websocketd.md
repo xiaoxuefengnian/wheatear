@@ -14,7 +14,7 @@ To get started, we'll create a WebSocket endpoint that will accept connections, 
 
 To show how simple it is, let's do it in Bash!
 
-__count.sh__:
+**count.sh**:
 
 ```sh
 #!/bin/bash
@@ -27,7 +27,7 @@ done
 Before turning it into a WebSocket server, let's test it from the command line. The beauty of `websocketd` is that servers work equally well in the command line, or in shell scripts, as they do in the server - with no modifications required.
 
 ```sh
-$ chmod +x count.sh
+chmod +x count.sh
 $ ./count.sh
 1
 2
@@ -44,12 +44,12 @@ $ ./count.sh
 Now let's turn it into a WebSocket server:
 
 ```sh
-$ websocketd --port=8080 ./count.sh
+websocketd --port=8080 ./count.sh
 ```
 
 Finally, let's create a web-page that to test it.
 
-__count.html__:
+**count.html**:
 
 ```html
 <!DOCTYPE html>
@@ -57,21 +57,22 @@ __count.html__:
 <script>
   // helper function: log message to screen
   function log(msg) {
-    document.getElementById('log').textContent += msg + '\n';
+    document.getElementById("log").textContent += msg + "\n";
   }
 
   // setup websocket with callbacks
-  var ws = new WebSocket('ws://localhost:8080/');
+  var ws = new WebSocket("ws://localhost:8080/");
   ws.onopen = function() {
-    log('CONNECT');
+    log("CONNECT");
   };
   ws.onclose = function() {
-    log('DISCONNECT');
+    log("DISCONNECT");
   };
   ws.onmessage = function(event) {
-    log('MESSAGE: ' + event.data);
+    log("MESSAGE: " + event.data);
   };
 </script>
 ```
+
 Open this page in your web-browser. It will even work if you open it directly
 from disk using a `file://` URL.
