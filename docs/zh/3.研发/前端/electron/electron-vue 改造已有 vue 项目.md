@@ -1,4 +1,4 @@
-# electron-vue 改造原 vue 项目
+# electron-vue 改造已有 vue 项目
 
 通过 [electron-vue 的 gitbook](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/) 了解其项目结构
 
