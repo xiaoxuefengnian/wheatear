@@ -103,3 +103,13 @@ windows 下安装 electron-packager 出现权限问题 operation not permitted
 删除 C:\Users\\{账户}\ 下的 .npmrc 文件
 
 只设置淘宝源，不设置 electron 的阿里镜像源
+
+### 安装卡住
+
+国内安装时卡在 node install.js
+
+出现 UnhandledPromiseRejectionWarning: RequestError: connect ETIMEDOUT 52.216.1.224:443
+
+这是 aws 的地址
+
+某次同样配置等了一段时间后就成功了，大概是个玄学
