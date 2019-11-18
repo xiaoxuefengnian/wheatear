@@ -75,3 +75,11 @@ sudo fc-cache -vf /usr/share/fonts/
 ```
 
 然后 vscode -- 设置 -- 搜索 terminal.integrated.fontFamily -- 填入 Menlo for Powerline
+
+## npm 等失效
+
+将 ~/.bashrc 或 ~/.bash_profile 中的配置复制到 ~/.zshrc 中，然后执行
+
+```bash
+source ~/.zshrc
+```
