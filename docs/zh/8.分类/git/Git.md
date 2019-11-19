@@ -20,6 +20,13 @@ git commit -m "提交注释"
 git push
 ```
 
+图形化操作工具 gitk
+
+```bash
+# 仓库目录下输入 gitk 命令即可打开
+gitk
+```
+
 ## 特殊情形
 
 ### 撤回 commit
