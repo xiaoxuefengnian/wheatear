@@ -61,7 +61,7 @@ echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
 
 vscode -- 设置 -- 搜索 terminal.integrated.fontFamily -- 填入 Meslo LG L DZ for Powerline
 
-**windows** [参考](https://blog.zhaytam.com/2019/04/19/powerline-and-zshs-agnoster-theme-in-vs-code/)
+**linux** [参考](https://blog.zhaytam.com/2019/04/19/powerline-and-zshs-agnoster-theme-in-vs-code/)
 
 ```bash
 # Clone the github repository
