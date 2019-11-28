@@ -4,3 +4,4 @@
 *.css linguist-language=javascript
 *.html linguist-language=javascript
 *.vue linguist-language=javascript
+*.md linguist-language=javascript
