@@ -1,5 +1,5 @@
-*.js linguist-language=JavaScript
-*.css linguist-language=JavaScript
-*.html linguist-language=JavaScript
-*.vue linguist-language=JavaScript
-*.md linguist-language=JavaScript
+# 排除 deploy.sh
+deploy.sh linguist-vendored
+
+# 将 docs 目录纳入统计
+docs/* linguist-documentation=false

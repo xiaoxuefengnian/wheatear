@@ -32,13 +32,13 @@ github 会自动根据仓库中的文件分析出仓库语言，不过有时不�
 GET /repos/:owner/:repo/languages
 ```
 
-以本项目 wheatear 为例，就是
+以本项目 [wheatear](https://github.com/xiaoxuefengnian/wheatear) 为例，就是
 
 ```http
 https://api.github.com/repos/xiaoxuefengnian/wheatear/languages
 ```
 
-如果需要自定义，就在仓库根目录下添加 .gitattributes 文件
+如果需要自定义，就在仓库根目录下添加 .gitattributes 文件（就本项目而言，仍需写入其他设置，请继续阅读 linguist 部分）
 
 ```
 *.js linguist-language=JavaScript
@@ -75,11 +75,74 @@ github-linguist
 
 结果是
 
+```
 100.00% Shell
+```
+
+显示详细
 
 ```bash
-# 显示详细
 github-linguist --breakdown
 ```
 
 结果是只统计到了 deploy.sh
+
+查看具体文件（比如 docs/README.md ）参数
+
+```bash
+git check-attr --all docs/README.md
+```
+
+结果是确实已经生效的
+
+```bash
+docs/README.md: linguist-language: JavaScript
+```
+
+继续查阅文档 [Overrides](https://github.com/github/linguist#Overrides) 部分
+
+首先测试一下，使 deploy.sh 不纳入统计
+
+在 .gitattributes 中只写入
+
+```
+deploy.sh linguist-vendored
+```
+
+是成功的
+
+::: tip
+
+When testing with a local installation of Linguist, take note that the added attributes will not take effect until the `.gitattributes` file is committed to your repository.
+
+对于 .gitattributes 的改动是在提交后生效
+
+:::
+
+因为代码都在 docs 目录下，所以继续查阅，发现是在 [documentation.yml](https://github.com/github/linguist/blob/master/lib/linguist/documentation.yml) 中将其排除在了统计范围
+
+在 .gitattributes 中写入
+
+```
+docs/* linguist-documentation=false
+```
+
+成功获得
+
+```
+66.70%  JavaScript
+32.76%  Vue
+0.55%   CSS
+```
+
+根据 github-linguist --breakdown 的分析结果设置 .gitattributes 文件（依据 2019.12.02 的目录结构）
+
+```
+# 排除 deploy.sh
+deploy.sh linguist-vendored
+
+# 将 docs 目录纳入统计
+docs/* linguist-documentation=false
+```
+
+同步到 github 上
