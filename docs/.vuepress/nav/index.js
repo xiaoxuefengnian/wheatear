@@ -9,7 +9,7 @@ const targetPath = source.substring(0, lastIndex + targetDirectory.length);
 
 // 获取参数 第一个参数为环境 development/production
 const { argv } = process;
-const index = argv.findIndex(x => x === '--');
+const index = argv.indexOf('--');
 let options = [];
 let env = 'development';
 if (index !== -1) {
@@ -21,9 +21,10 @@ if (index !== -1) {
 // 始终需要排除的目录
 const excludesEver = [
   '.DS_Store',
+  '.resources',
 ];
 const excludes = [
-  '.productionignore'
+  '.productionignore',
 ];
 
 /**
@@ -31,15 +32,19 @@ const excludes = [
  * @param {string} currentDirectoryPath 包含 lang 及之后的路径
  */
 function getDirectoryFiles(currentDirectoryPath) {
-  let [excludesFiles, ignoreList] = [[], []];
+  let [excludesFiles, ignoreList, sortList] = [[], [], []];
+
+  try {
+    sortList = fse.readFileSync(`${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav-sort.json`, 'utf-8');
+  } catch (error) {
+
+  }
+
   if (env === 'development') {
     excludesFiles = [...excludes];
   } else if (env === 'production') {
     try {
-      const ignoreFile = fse.readFileSync(`${targetPath}/${currentDirectoryPath}/.productionignore`, {
-        encoding: 'utf8',
-        withFileTypes: true,
-      });
+      const ignoreFile = fse.readFileSync(`${targetPath}/${currentDirectoryPath}/.productionignore`, 'utf8');
       ignoreList = ignoreFile.split('\n');
     } catch (error) {
 
@@ -47,6 +52,18 @@ function getDirectoryFiles(currentDirectoryPath) {
     excludesFiles = [...excludes, ...ignoreList];
   }
   excludesFiles = excludesFiles.map(x => `${currentDirectoryPath}/${x}`);
+
+  const getSort = (a, b) => {
+    // 始终将 README.md 放在第一个
+    if (a.originName === "README.md") return -1;
+    // 无排序文件
+    if (sortList.length === 0) return 1;
+    // 使用相对路径做标识，可避免同名在不同目录下无法唯一标识的情况
+    const [aIndex, bIndex] = [sortList.indexOf(a.link), sortList.indexOf(b.link)];
+    if (bIndex === -1) return -1;
+    if (aIndex === -1) return 1;
+    return aIndex - bIndex;
+  }
 
   const func = (path) => {
     const directoryFiles = fse.readdirSync(`${targetPath}/${path}`, {
@@ -72,8 +89,8 @@ function getDirectoryFiles(currentDirectoryPath) {
       if (dirent.isFile()) {
         if (dirent.name === 'README.md') {
           file.text = '';
-          file.pathName = '',
-            hasReadme = true;
+          file.pathName = '';
+          hasReadme = true;
         } else {
           file.text = getFileName(dirent);
         }
@@ -86,7 +103,9 @@ function getDirectoryFiles(currentDirectoryPath) {
         isPureDirectory = false;
       }
       return file;
-    }).sort((a, b) => a.pathName ? a.pathName - b.pathName : -1); // 始终将 README.md 放在第一个
+    }).sort((a, b) => getSort(a, b));
+
+    fse.writeFileSync(`${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav.json`, JSON.stringify(files))
 
     return {
       files,
@@ -104,8 +123,8 @@ function getDirectoryFiles(currentDirectoryPath) {
  */
 function getFileName(dirent) {
   const fileName = dirent.name;
-  // 形如 数字.name.类型 其中数字和类型是可选的
-  // 例 1.aa.md | bb.md | cc
+  // 形如 name.类型 其中数字和类型是可选的
+  // 例 bb.md | cc
   const lastIndex = fileName.lastIndexOf('.');
   if (lastIndex === -1) return fileName;
 
@@ -115,9 +134,7 @@ function getFileName(dirent) {
   } else {
     nameWithoutSuffix = fileName;
   }
-  const firstIndex = fileName.indexOf('.');
-  if (firstIndex === -1) return nameWithoutSuffix;
-  return nameWithoutSuffix.substring(firstIndex + 1);
+  return nameWithoutSuffix;
 }
 
 /**
