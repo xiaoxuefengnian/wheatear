@@ -105,7 +105,8 @@ function getDirectoryFiles(currentDirectoryPath) {
       return file;
     }).sort((a, b) => getSort(a, b));
 
-    fse.writeFileSync(`${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav.json`, JSON.stringify(files))
+    // 不同环境写入不同文件
+    fse.writeFileSync(`${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav${env === 'development' ? '-dev' : '-prod'}.json`, JSON.stringify(files));
 
     return {
       files,

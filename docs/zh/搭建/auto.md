@@ -309,6 +309,7 @@ http://localhost:8080/zh/搭建/auto.html#修改配置
      而 nav-sort.json 仅由 node 修改（development 环境下）
      即修改较大的集合的排序
      所以可以排除两个环境目录不相等而导致因环境切换缺少部分排序的情况
+补充：可将 nav.json 细分为 nav-dev.json 和 nav-prod.json
 ```
 
 在 docs/.vuepress/nav/index.js 中已经实现对目录树的获取
@@ -437,8 +438,11 @@ function getDirectoryFiles(currentDirectoryPath) {
       })
       .sort((a, b) => getSort(a, b));
 
+    // 不同环境写入不同文件
     fse.writeFileSync(
-      `${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav.json`,
+      `${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav${
+        env === "development" ? "-dev" : "-prod"
+      }.json`,
       JSON.stringify(files)
     );
 
