@@ -57,10 +57,21 @@ HEAD^ 的意思是上一个版本，也可以写成 HEAD~1
 
 注意完成这个操作后，就恢复到了上一次的 commit 状态
 
-**其他**
+### 重写 commit 注释
 
 如果 commit 注释写错了，只是想改一下注释，只需要：
 
 git commit --amend
 
 此时会进入默认 vim 编辑器，修改注释完毕后保存
+
+### 忽略已追踪的文件
+
+对于已经 track 的文件，添加到 .gitignore 中，仍然会被 track 到的解决方法
+
+```bash
+# 执行
+git rm --cached dir_name/file_name -r
+
+# 提交
+```
