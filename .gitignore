@@ -1,5 +1,5 @@
 node_modules
 docs/.vuepress/dist
+docs/zh/.resources/nav.json
 theme-default
 .gitattributes
-docs/zh/.resources

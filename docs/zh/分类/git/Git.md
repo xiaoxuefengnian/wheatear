@@ -65,6 +65,16 @@ git commit --amend
 
 此时会进入默认 vim 编辑器，修改注释完毕后保存
 
+::: tip
+
+只针对最后一次 commit 的注释
+
+对于 commit 但未 push 的，会直接修改注释
+
+对于 commit 且已 push 的，会在本地以新的注释重新提交一次，远程仍是原来的注释，需要在后面 merge 一下
+
+:::
+
 ### 忽略已追踪的文件
 
 对于已经 track 的文件，添加到 .gitignore 中，仍然会被 track 到的解决方法
