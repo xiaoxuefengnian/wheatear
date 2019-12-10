@@ -293,6 +293,7 @@ http://localhost:8080/zh/搭建/auto.html#修改配置
      将原根据文件名排序改为据此排序目录树
      将排序后的目录树存入 nav.json
 排序：node 读取 nav.json 显示
+     node 读取 nav-sort.json 标记出未排序的文件
      可视化操作调整排序
      将结果以相同格式覆写 nav.json 和 nav-sort.json
 优点：较原方案可保持干净的文件/目录名
