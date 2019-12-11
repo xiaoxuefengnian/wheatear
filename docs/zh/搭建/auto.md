@@ -542,3 +542,9 @@ module.exports = {
 ```
 
 至此，【实现】部分完成，【排序】部分将在另一篇中讲解。
+
+::: tip
+
+采用 node 而不使用 [FileSaver.js](https://github.com/eligrey/FileSaver.js/) 的原因是 FileSaver.js 无法直接保存至指定位置
+
+:::
