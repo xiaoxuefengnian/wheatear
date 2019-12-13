@@ -56,10 +56,11 @@ function getDirectoryFiles(currentDirectoryPath) {
   const getSort = (a, b) => {
     // 始终将 README.md 放在第一个
     if (a.originName === "README.md") return -1;
-    // 无排序文件
-    if (sortList.length === 0) return 1;
+    // 无排序文件 按本地排序规则排序
+    if (sortList.length === 0) return a.originName.localeCompare(b.originName);
     // 使用相对路径做标识，可避免同名在不同目录下无法唯一标识的情况
     const [aIndex, bIndex] = [sortList.indexOf(a.link), sortList.indexOf(b.link)];
+    if (aIndex === -1 && bIndex === -1) return a.originName.localeCompare(b.originName);
     if (bIndex === -1) return -1;
     if (aIndex === -1) return 1;
     return aIndex - bIndex;

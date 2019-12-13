@@ -126,7 +126,8 @@ function getDirectoryFiles(currentDirectoryPath) {
         }
         return file;
       })
-      .sort((a, b) => (a.pathName ? a.pathName - b.pathName : -1)); // 始终将 README.md 放在第一个
+      .sort((a, b)
+      => (a.pathName ? a.pathName - b.pathName : -1)); // 始终将 README.md 放在第一个
 
     return {
       files,
@@ -305,7 +306,8 @@ function getDirectoryFiles(currentDirectoryPath) {
         }
         return file;
       })
-      .sort((a, b) => (a.pathName ? a.pathName - b.pathName : -1)); // 始终将 README.md 放在第一个
+      .sort((a, b)
+      => (a.pathName ? a.pathName - b.pathName : -1)); // 始终将 README.md 放在第一个
 
     return {
       files,
