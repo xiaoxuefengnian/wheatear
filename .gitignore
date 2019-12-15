@@ -1,5 +1,6 @@
 node_modules
 docs/.vuepress/dist
+docs/.vuepress/public/img/me_origin.png
 docs/zh/.resources/nav-dev.json
 docs/zh/.resources/nav-prod.json
 theme-default
