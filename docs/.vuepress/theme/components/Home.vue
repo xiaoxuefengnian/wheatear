@@ -34,7 +34,8 @@
         :key="index"
       >
         <h2>{{ feature.title }}</h2>
-        <p>{{ feature.details }}</p>
+        <p v-for="(detail, detailIndex) in feature.details"
+        :key="detailIndex">{{ detail }}</p>
       </div>
     </div>
 
@@ -127,6 +128,9 @@ export default {
       color lighten($textColor, 10%)
     p
       color lighten($textColor, 25%)
+      &:last-of-type
+        padding-right 1rem
+        text-align right
   .footer
     padding 2.5rem
     border-top 1px solid $borderColor
