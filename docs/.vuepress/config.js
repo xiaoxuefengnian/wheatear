@@ -164,7 +164,7 @@ module.exports = {
    */
   plugins: [
     ['@vuepress/back-to-top', true],
-    '@vuepress/nprogress',
+    ['@vuepress/nprogress'],
     [
       '@vuepress/last-updated',
       {
@@ -183,6 +183,8 @@ module.exports = {
       }
     ],
     ['@vuepress/medium-zoom'],
+
+    [require('./plugins/nav-sort-server')]
   ],
 
   /**
