@@ -1,8 +1,6 @@
 <template>
   <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
 
-    <BaiduTongji></BaiduTongji>
-
     <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
 
     <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
@@ -11,30 +9,16 @@
       <slot name="sidebar-top" slot="top" />
       <slot name="sidebar-bottom" slot="bottom" />
     </Sidebar>
-
-    <Home v-if="$page.frontmatter.home" />
-
-    <Page v-else :sidebar-items="sidebarItems">
-      <slot name="page-top" slot="top" />
-      <slot name="page-bottom" slot="bottom">
-        <Gitalk></Gitalk>
-      </slot>
-    </Page>
   </div>
 </template>
 
 <script>
-import Home from '@theme/components/Home.vue'
 import Navbar from '@parent-theme/components/Navbar.vue'
-import Page from '@parent-theme/components/Page.vue'
 import Sidebar from '@parent-theme/components/Sidebar.vue'
-import { resolveSidebarItems } from '../util'
-
-import Gitalk from '@theme/components/Gitalk.vue'
-import BaiduTongji from '@theme/analysis/BaiduTongji.vue'
+import { resolveSidebarItems } from '@theme/util'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar, Gitalk, BaiduTongji },
+  components: { Sidebar, Navbar },
 
   data() {
     return {
@@ -88,7 +72,15 @@ export default {
         },
         userPageClass
       ]
-    }
+    },
+
+    /**
+     * 给 sidebarItems 赋名称 
+     * 因为 YAML front matter 未获取到一级标题
+     */
+    sidebarItemsPlus() {
+      return this.sidebarItems.map(x => (Object.assign({}, x)));
+    },
   },
 
   mounted() {
