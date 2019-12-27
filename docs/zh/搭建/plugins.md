@@ -301,9 +301,11 @@ export default {
      * 因为 YAML front matter 未获取到一级标题
      */
     sidebarItemsPlus() {
-      this.sidebarItems[0].children.forEach(x => {
-        x.title = /\/([^/]+)\.html/.exec(x.path)[1];
-      });
+      if (this.sidebarItems.length > 0) {
+        this.sidebarItems[0].children.forEach(x => {
+          x.title = /\/([^/]+)\.html/.exec(x.path)[1];
+        });
+      }
       return this.sidebarItems;
     },
 
