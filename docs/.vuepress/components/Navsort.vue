@@ -1,14 +1,78 @@
 <template>
-  <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
+  <div class="theme-container"
+    :class="pageClasses"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd">
 
-    <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
+    <Navbar v-if="shouldShowNavbar"
+      @toggle-sidebar="toggleSidebar" />
 
-    <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
+    <div class="sidebar-mask"
+      @click="toggleSidebar(false)"></div>
 
-    <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
-      <slot name="sidebar-top" slot="top" />
-      <slot name="sidebar-bottom" slot="bottom" />
+    <Sidebar :items="sidebarItemsPlus"
+      @toggle-sidebar="toggleSidebar">
+      <slot name="sidebar-top"
+        slot="top" />
+      <slot name="sidebar-bottom"
+        slot="bottom" />
     </Sidebar>
+
+    <!-- 通过类名使用默认主题的样式 -->
+    <main class="page">
+      <!-- 通过类名使用默认主题的样式 -->
+      <div class="theme-default-content content__default">
+        <h1>导航菜单排序</h1>
+
+        <section>
+          <el-input placeholder="输入关键字进行过滤"
+            v-model="filterText">
+          </el-input>
+        </section>
+
+        <section class="badge-desc">
+          <span v-for="badge in badges"
+            :key="badge.type">
+            <el-badge :type="badge.type"
+              is-dot>
+            </el-badge>
+            {{badge.desc}}
+          </span>
+
+          <span class="sort-info">
+            <span>排序已改变个数：{{changedLinksLength}}</span>
+            <el-button :disabled="changedLinksLength === 0"
+              @click="handleSave"
+              type="primary"
+              circle
+              size="mini">存</el-button>
+          </span>
+        </section>
+
+        <section>
+          <el-tree :data="navTree"
+            node-key="link"
+            default-expand-all
+            draggable
+            @node-drag-end="handleDragEnd"
+            icon-class="el-icon-s-flag"
+            :filter-node-method="filterNode"
+            :props="defaultProps"
+            :allow-drop="allowDrop"
+            :allow-drag="allowDrag"
+            ref="tree">
+            <span class="custom-tree-node "
+              slot-scope="{node, data}">
+              <span>{{data.originName}}</span>
+              <el-badge :type="sortType(data.link)"
+                is-dot>
+              </el-badge>
+            </span>
+          </el-tree>
+        </section>
+      </div>
+    </main>
+
   </div>
 </template>
 
@@ -17,12 +81,58 @@ import Navbar from '@parent-theme/components/Navbar.vue'
 import Sidebar from '@parent-theme/components/Sidebar.vue'
 import { resolveSidebarItems } from '@theme/util'
 
+import axios from 'axios';
+import qs from "qs";
+// 引入 element-ui
+import {
+  Button,
+  Tree,
+  Badge,
+  Input,
+  Message,
+} from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 export default {
-  components: { Sidebar, Navbar },
+  components: {
+    Sidebar, Navbar,
+    [Button.name]: Button,
+    [Tree.name]: Tree,
+    [Badge.name]: Badge,
+    [Input.name]: Input,
+  },
 
   data() {
     return {
-      isSidebarOpen: false
+      isSidebarOpen: false,
+
+      defaultProps: {
+        children: 'children',
+        label: 'originName',
+      },
+
+      badges: [
+        {
+          type: 'success',
+          desc: '已排序',
+        },
+        {
+          type: 'warning',
+          desc: '排序已改变',
+        },
+        {
+          type: 'danger',
+          desc: '未排序',
+        },
+      ],
+
+      navTree: [],
+      navSort: [],
+
+      // 存排序已改变的链接
+      changedLinks: {},
+
+      filterText: '',
     }
   },
 
@@ -79,14 +189,31 @@ export default {
      * 因为 YAML front matter 未获取到一级标题
      */
     sidebarItemsPlus() {
-      return this.sidebarItems.map(x => (Object.assign({}, x)));
+      this.sidebarItems[0].children.forEach(x => {
+        x.title = /\/([^/]+)\.html/.exec(x.path)[1]
+      });
+      return this.sidebarItems;
     },
+
+    changedLinksLength() {
+      return Object.keys(this.changedLinks).length;
+    }
+  },
+
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val);
+    }
   },
 
   mounted() {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
     })
+
+    window.vue = this;
+    this.getNavTree();
+    this.getNavSort();
   },
 
   methods: {
@@ -94,7 +221,6 @@ export default {
       this.isSidebarOpen = typeof to === 'boolean' ? to : !this.isSidebarOpen
     },
 
-    // side swipe
     onTouchStart(e) {
       this.touchStart = {
         x: e.changedTouches[0].clientX,
@@ -112,7 +238,150 @@ export default {
           this.toggleSidebar(false)
         }
       }
+    },
+
+    DefaultValues() {
+      return {
+        changedLinks: {},
+      }
+    },
+
+    async getNavTree() {
+      return axios.get('/serve/nav/tree')
+        .then(res => {
+          const { data } = res.data;
+          this.navTree = JSON.parse(data);
+          Message.success('获取【导航菜单树】成功');
+        })
+    },
+
+    async getNavSort() {
+      return axios.get('/serve/nav/sort')
+        .then(res => {
+          const { data } = res.data;
+          this.navSort = JSON.parse(data);
+          Message.success('获取【导航菜单排序】成功');
+        })
+    },
+
+    async setNavTree(tree) {
+      return axios({
+        url: '/serve/nav/tree',
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        data: { data: tree }
+      })
+        .then(res => {
+          const { resultCode } = res.data;
+          if (resultCode === 1) {
+            Message.success('设置【导航菜单树】成功');
+          }
+        })
+    },
+
+    async setNavSort(sort) {
+      return axios({
+        url: '/serve/nav/sort',
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        data: { data: sort }
+      })
+        .then(res => {
+          const { resultCode } = res.data;
+          if (resultCode === 1) {
+            this.changedLinks = JSON.parse(JSON.stringify(this.DefaultValues().changedLinks));
+            Message.success('设置【导航菜单排序】成功');
+          }
+        })
+    },
+
+    handleSave() {
+      const newSort = [];
+      const recursion = (array) => {
+        array.forEach(x => {
+          newSort.push(x.link);
+          if (Array.isArray(x.children) && x.children.length > 0) {
+            recursion(x.children);
+          }
+        });
+      }
+      recursion(this.navTree);
+
+      Promise.all([
+        this.setNavTree(this.navTree),
+        this.setNavSort(newSort),
+      ])
+      .then(() => { })
+      .catch(() => { })
+    },
+
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.link.indexOf(value) !== -1;
+    },
+
+    sortType(link) {
+      if (this.changedLinks[link]) return 'warning';
+      if (this.navSort.includes(link)) return 'success';
+      return 'danger';
+    },
+
+    handleDragEnd(draggingNode, dropNode, dropType, ev) {
+      // 拖拽放置未成功
+      if (dropType === 'none') return;
+
+      this.$set(this.changedLinks, draggingNode.data.link, true);
+      this.$set(this.changedLinks, dropNode.data.link, true);
+    },
+
+    allowDrop(draggingNode, dropNode, type) {
+      // 不能改变菜单层级
+      if (type === 'inner') return false;
+      // 只能改变同层级前后顺序
+      return draggingNode.parent === dropNode.parent;
+    },
+
+    allowDrag(draggingNode) {
+      return true;
     }
   }
+  // end
 }
 </script>
+
+<style scoped>
+.theme-default-content section {
+  margin: 10px 0;
+}
+
+.badge-desc {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.badge-desc .el-badge {
+  top: 2px;
+  margin-left: 8px;
+}
+
+.sort-info {
+  margin-left: 10px;
+}
+
+.sort-info > span {
+  margin-right: 10px;
+}
+
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
+</style>

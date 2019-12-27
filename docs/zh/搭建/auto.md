@@ -178,15 +178,6 @@ function getSidebar(files) {
   return sidebar;
 }
 
-// 示例
-// const lang = 'zh';
-// const { files } = getDirectoryFiles(lang);
-// const nav = getItems(files);
-// const sidebar = getSidebar(files);
-// console.log(files);
-// console.log(nav);
-// console.log(sidebar);
-
 module.exports = {
   getDirectoryFiles,
   getNav: getItems,
@@ -230,8 +221,6 @@ const { getDirectoryFiles, getNav, getSidebar } = require("./index");
 const { files } = getDirectoryFiles("zh");
 const nav = getNav(files);
 const sidebar = getSidebar(files);
-
-console.log(nav);
 
 // 可以在这里再次进行处理
 
@@ -527,15 +516,6 @@ function getSidebar(files) {
   getChildren(files);
   return sidebar;
 }
-
-// 示例
-// const lang = 'zh';
-// const { files } = getDirectoryFiles(lang);
-// const nav = getItems(files);
-// const sidebar = getSidebar(files);
-// console.log(files);
-// console.log(nav);
-// console.log(sidebar);
 
 module.exports = {
   getDirectoryFiles,
