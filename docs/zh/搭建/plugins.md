@@ -14,7 +14,7 @@
 
 将现有的根据 nav-sort.json 对目录树排序的操作进行可视化处理
 
-## 开发插件
+### 开发插件
 
 新建 docs/.vuepress/plugins/ 目录用于存放插件
 
@@ -95,7 +95,7 @@ module.exports = (options, ctx) => {
 
 参考 [beforeDevServer](https://vuepress.vuejs.org/zh/plugin/option-api.html#beforedevserver)
 
-## 引入插件
+### 引入插件
 
 在 docs/.vuepress/config.js 中添加
 
@@ -105,7 +105,7 @@ plugins: [
 ],
 ```
 
-## 配置页面
+### 配置页面
 
 因为 vuepress 是 Vue 驱动的静态网站生成器，所以考虑直接使用 vue 编写页面
 
@@ -506,7 +506,7 @@ export default {
 以在生产环境下隐藏设置目录 详见【[忽略文档](/zh/搭建/ignore.html)】
 :::
 
-## 注意事项
+### 注意事项
 
 因为服务中是通过 nav-dev.json 获取的目录树
 
