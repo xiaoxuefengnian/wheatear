@@ -22,7 +22,7 @@ git config user.email "github@xx.com"
 
 发现是因为项目配置的邮箱和 github 上的邮箱不一致
 
-## 仓库语言
+## linguist 仓库语言
 
 github 会自动根据仓库中的文件分析出仓库语言，不过有时不准，需要自定义
 
@@ -146,3 +146,78 @@ docs/* linguist-documentation=false
 ```
 
 同步到 github 上
+
+## 将本地项目发布到 GitHub 上
+
+以本项目 wheatear 为例
+
+在 GitHub 上新建一个名为 wheatear 的仓库
+
+在终端打开项目根目录
+
+```bash
+# 初始化仓库
+git init
+
+# 添加所有文件
+git add .
+
+# 提交到本地仓库
+git commit -m '第一次提交'
+
+# 添加远程地址
+git remote add origin https://github.com/xiaoxuefengnian/wheatear
+
+# 提交到远程分支
+git push -u origin master
+```
+
+错误处理
+
+```bash
+To https://github.com/xiaoxuefengnian/wheatear
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/xiaoxuefengnian/wheatear'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+# 解决方案：
+git pull --rebase origin master
+git push -u origin master
+```
+
+## 自定义域名
+
+目的
+
+给 GitHub Pages 绑定一个域名
+
+比如 本项目相关的 xiaoxuefengnian.github.io 仓库 详见【[部署](/zh/搭建/deploy.html)】
+
+其默认域名就是 xiaoxuefengnian.github.io
+
+之前访问项目也是用的这个域名
+
+今天在 [阿里云](https://wanwang.aliyun.com/domain/com) 注册了一个域名 [zhourui.tech](http://www.zhourui.tech) ，十年才不到 200RMB，偷笑一下
+
+**具体设置**
+
+找到 xiaoxuefengnian.github.io 仓库的 Settings 下的 GitHub Pages
+
+设置 Custom domain 为 www.zhourui.tech
+
+在阿里云控制台中对 zhourui.tech 添加 2 条解析记录
+
+记录类型均为 CNAME
+
+主机记录分别为 @ 和 www
+
+记录值均为 xiaoxuefengnian.github.io
+
+TTL 就选默认的 10 分钟，其实不到 10 分钟就可以访问了
+
+**意外之喜**
+
+在国内访问 zhourui.tech 感觉比访问 xiaoxuefengnian.github.io 快了许多
