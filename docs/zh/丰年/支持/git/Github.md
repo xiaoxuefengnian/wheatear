@@ -221,3 +221,11 @@ TTL 就选默认的 10 分钟，其实不到 10 分钟就可以访问了
 **意外之喜**
 
 在国内访问 zhourui.tech 感觉比访问 xiaoxuefengnian.github.io 快了许多
+
+网站分析上也多了一个新的域名
+
+**意外问题**
+
+现有的部署方案会导致 github 仓库的 Settings 重置，每次执行部署后都需要重新设置 Custom domain
+
+需改进

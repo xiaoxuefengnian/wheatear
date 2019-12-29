@@ -121,7 +121,7 @@ export default {
           desc: '排序已改变',
         },
         {
-          type: 'danger',
+          type: 'info',
           desc: '未排序',
         },
       ],
@@ -329,7 +329,7 @@ export default {
     sortType(link) {
       if (this.changedLinks[link]) return 'warning';
       if (this.navSort.includes(link)) return 'success';
-      return 'danger';
+      return 'info';
     },
 
     handleDragEnd(draggingNode, dropNode, dropType, ev) {
