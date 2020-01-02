@@ -40,9 +40,10 @@
           </span>
 
           <span class="sort-info">
+            <span>未排序个数：{{unsortedLinksLength}}</span>
             <span>排序已改变个数：{{changedLinksLength}}</span>
-            <el-button :disabled="changedLinksLength === 0"
-              @click="handleSave"
+            <el-button @click="handleSave"
+              :disabled="changedLinksLength === 0 && unsortedLinksLength.length === 0"
               type="primary"
               circle
               size="mini">存</el-button>
@@ -61,9 +62,11 @@
             :allow-drop="allowDrop"
             :allow-drag="allowDrag"
             ref="tree">
-            <span class="custom-tree-node "
+            <span class="custom-tree-node"
               slot-scope="{node, data}">
-              <span>{{data.originName}}</span>
+              <span :class="`custom-tree-node-${sortType(data.link)}`">
+                {{data.originName}}
+              </span>
               <el-badge :type="sortType(data.link)"
                 is-dot>
               </el-badge>
@@ -129,8 +132,8 @@ export default {
       navTree: [],
       navSort: [],
 
-      // 存排序已改变的链接
       changedLinks: {},
+      unsortedLinks: {},
 
       filterText: '',
     }
@@ -198,8 +201,12 @@ export default {
     },
 
     changedLinksLength() {
-      return Object.keys(this.changedLinks).length;
-    }
+      return Object.entries(this.changedLinks).filter(([link, value]) => value).length;
+    },
+
+    unsortedLinksLength() {
+      return Object.entries(this.unsortedLinks).filter(([link, value]) => value).length;
+    },
   },
 
   watch: {
@@ -214,8 +221,8 @@ export default {
     })
 
     window.vue = this;
-    this.getNavTree();
-    this.getNavSort();
+
+    this.init();
   },
 
   methods: {
@@ -245,7 +252,30 @@ export default {
     DefaultValues() {
       return {
         changedLinks: {},
+        unsortedLinks: {},
       }
+    },
+
+    init() {
+      this.changedLinks = JSON.parse(JSON.stringify(this.DefaultValues().changedLinks));
+      this.unsortedLinks = JSON.parse(JSON.stringify(this.DefaultValues().unsortedLinks));
+
+      Promise.all([
+        this.getNavTree(),
+        this.getNavSort(),
+      ])
+        .then(() => {
+          const recursion = (array) => {
+            array.forEach(x => {
+              this.$set(this.unsortedLinks, x.link, !this.navSort.includes(x.link));
+              if (Array.isArray(x.children) && x.children.length > 0) {
+                recursion(x.children);
+              }
+            });
+          }
+          recursion(this.navTree);
+        })
+        .catch(() => { })
     },
 
     async getNavTree() {
@@ -253,7 +283,9 @@ export default {
         .then(res => {
           const { data } = res.data;
           this.navTree = JSON.parse(data);
-          Message.success('获取【导航菜单树】成功');
+        })
+        .catch(() => {
+          Message.error('获取【导航菜单树】失败');
         })
     },
 
@@ -262,7 +294,9 @@ export default {
         .then(res => {
           const { data } = res.data;
           this.navSort = JSON.parse(data);
-          Message.success('获取【导航菜单排序】成功');
+        })
+        .catch(() => {
+          Message.error('获取【导航菜单排序】失败');
         })
     },
 
@@ -275,11 +309,9 @@ export default {
         },
         data: { data: tree }
       })
-        .then(res => {
-          const { resultCode } = res.data;
-          if (resultCode === 1) {
-            Message.success('设置【导航菜单树】成功');
-          }
+        .then(() => { })
+        .catch(() => {
+          Message.error('设置【导航菜单树】失败');
         })
     },
 
@@ -295,9 +327,11 @@ export default {
         .then(res => {
           const { resultCode } = res.data;
           if (resultCode === 1) {
-            this.changedLinks = JSON.parse(JSON.stringify(this.DefaultValues().changedLinks));
-            Message.success('设置【导航菜单排序】成功');
+            this.init();
           }
+        })
+        .catch(() => {
+          Message.error('设置【导航菜单排序】失败');
         })
     },
 
@@ -327,8 +361,11 @@ export default {
     },
 
     sortType(link) {
+      // 排序已改变
       if (this.changedLinks[link]) return 'warning';
+      // 已排序
       if (this.navSort.includes(link)) return 'success';
+      // 未排序
       return 'info';
     },
 
@@ -385,5 +422,13 @@ export default {
   justify-content: space-between;
   font-size: 14px;
   padding-right: 8px;
+}
+.custom-tree-node-warning {
+  color: #fff;
+  background-color: #e6a23c;
+}
+.custom-tree-node-info {
+  color: #fff;
+  background-color: #909399;
 }
 </style>
