@@ -228,4 +228,11 @@ TTL 就选默认的 10 分钟，其实不到 10 分钟就可以访问了
 
 现有的部署方案会导致 github 仓库的 Settings 重置，每次执行部署后都需要重新设置 Custom domain
 
-需改进
+在 deploy.sh 中修改
+
+```bash
+# 如果是发布到自定义域名
+echo 'www.zhourui.tech' > CNAME
+```
+
+这种在根目录下写 CNAME 文件的方法同样可以设置自定义域名
