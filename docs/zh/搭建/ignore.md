@@ -1,4 +1,4 @@
-# 忽略文档
+# 忽略文件
 
 以本项目 [wheatear](https://github.com/xiaoxuefengnian/wheatear) 为例
 

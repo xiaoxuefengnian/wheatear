@@ -503,7 +503,7 @@ export default {
 :::tip
 在 docs/zh/.productionignore 中添加 "设置"
 
-以在生产环境下隐藏设置目录 详见【[忽略文档](/zh/搭建/ignore.html)】
+以在生产环境下隐藏设置目录 详见【[忽略文件](/zh/搭建/ignore.html)】
 :::
 
 ### 注意事项
