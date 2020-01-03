@@ -200,7 +200,7 @@ git push -u origin master
 
 之前访问项目也是用的这个域名
 
-今天在 [阿里云](https://wanwang.aliyun.com/domain/com) 注册了一个域名 [zhourui.tech](http://www.zhourui.tech) ，十年才不到 200RMB，偷笑一下
+今天在 [阿里云](https://wanwang.aliyun.com/domain/com) 注册了一个域名 [zhourui.tech](https://www.zhourui.tech) ，十年才不到 200RMB，偷笑一下
 
 **具体设置**
 

@@ -162,10 +162,13 @@ layout: Navsort
           </span>
 
           <span class="sort-info">
+            <span>未排序个数：{{ unsortedLinksLength }}</span>
             <span>排序已改变个数：{{ changedLinksLength }}</span>
             <el-button
-              :disabled="changedLinksLength === 0"
               @click="handleSave"
+              :disabled="
+                changedLinksLength === 0 && unsortedLinksLength.length === 0
+              "
               type="primary"
               circle
               size="mini"
@@ -188,8 +191,13 @@ layout: Navsort
             :allow-drag="allowDrag"
             ref="tree"
           >
-            <span class="custom-tree-node " slot-scope="{ node, data }">
-              <span>{{ data.originName }}</span>
+            <span class="custom-tree-node" slot-scope="{ node, data }">
+              <span
+                class="custom-tree-node-text"
+                :class="`custom-tree-node-text-${sortType(data.link)}`"
+              >
+                {{ data.originName }}
+              </span>
               <el-badge :type="sortType(data.link)" is-dot> </el-badge>
             </span>
           </el-tree>
@@ -239,7 +247,7 @@ export default {
           desc: "排序已改变"
         },
         {
-          type: "danger",
+          type: "info",
           desc: "未排序"
         }
       ],
@@ -247,8 +255,7 @@ export default {
       navTree: [],
       navSort: [],
 
-      // 存排序已改变的链接
-      changedLinks: {},
+      originNavTreeSort: [],
 
       filterText: ""
     };
@@ -314,7 +321,27 @@ export default {
     },
 
     changedLinksLength() {
-      return Object.keys(this.changedLinks).length;
+      return this.originNavTreeSort.filter((x, i) => {
+        return i !== this.currentNavTreeSort.findIndex(y => y === x);
+      }).length;
+    },
+
+    unsortedLinksLength() {
+      return this.currentNavTreeSort.length - this.navSort.length;
+    },
+
+    currentNavTreeSort() {
+      const newSort = [];
+      const recursion = array => {
+        array.forEach(x => {
+          newSort.push(x.link);
+          if (Array.isArray(x.children) && x.children.length > 0) {
+            recursion(x.children);
+          }
+        });
+      };
+      recursion(this.navTree);
+      return newSort;
     }
   },
 
@@ -329,9 +356,7 @@ export default {
       this.isSidebarOpen = false;
     });
 
-    window.vue = this;
-    this.getNavTree();
-    this.getNavSort();
+    this.init();
   },
 
   methods: {
@@ -360,24 +385,51 @@ export default {
 
     DefaultValues() {
       return {
-        changedLinks: {}
+        originNavTreeSort: []
       };
     },
 
+    init() {
+      Promise.all([this.getNavTree(), this.getNavSort()])
+        .then(() => {
+          this.originNavTreeSort = JSON.parse(
+            JSON.stringify(this.DefaultValues().originNavTreeSort)
+          );
+          const recursion = array => {
+            array.forEach(x => {
+              this.originNavTreeSort.push(x.link);
+              if (Array.isArray(x.children) && x.children.length > 0) {
+                recursion(x.children);
+              }
+            });
+          };
+          recursion(this.navTree);
+        })
+        .catch(() => {});
+    },
+
     async getNavTree() {
-      return axios.get("/serve/nav/tree").then(res => {
-        const { data } = res.data;
-        this.navTree = JSON.parse(data);
-        Message.success("获取【导航菜单树】成功");
-      });
+      return axios
+        .get("/serve/nav/tree")
+        .then(res => {
+          const { data } = res.data;
+          this.navTree = JSON.parse(data);
+        })
+        .catch(() => {
+          Message.error("获取【导航菜单树】失败");
+        });
     },
 
     async getNavSort() {
-      return axios.get("/serve/nav/sort").then(res => {
-        const { data } = res.data;
-        this.navSort = JSON.parse(data);
-        Message.success("获取【导航菜单排序】成功");
-      });
+      return axios
+        .get("/serve/nav/sort")
+        .then(res => {
+          const { data } = res.data;
+          this.navSort = JSON.parse(data);
+        })
+        .catch(() => {
+          Message.error("获取【导航菜单排序】失败");
+        });
     },
 
     async setNavTree(tree) {
@@ -388,12 +440,11 @@ export default {
           "Content-Type": "application/json;charset=UTF-8"
         },
         data: { data: tree }
-      }).then(res => {
-        const { resultCode } = res.data;
-        if (resultCode === 1) {
-          Message.success("设置【导航菜单树】成功");
-        }
-      });
+      })
+        .then(() => {})
+        .catch(() => {
+          Message.error("设置【导航菜单树】失败");
+        });
     },
 
     async setNavSort(sort) {
@@ -404,30 +455,23 @@ export default {
           "Content-Type": "application/json;charset=UTF-8"
         },
         data: { data: sort }
-      }).then(res => {
-        const { resultCode } = res.data;
-        if (resultCode === 1) {
-          this.changedLinks = JSON.parse(
-            JSON.stringify(this.DefaultValues().changedLinks)
-          );
-          Message.success("设置【导航菜单排序】成功");
-        }
-      });
+      })
+        .then(res => {
+          const { resultCode } = res.data;
+          if (resultCode === 1) {
+            this.init();
+          }
+        })
+        .catch(() => {
+          Message.error("设置【导航菜单排序】失败");
+        });
     },
 
     handleSave() {
-      const newSort = [];
-      const recursion = array => {
-        array.forEach(x => {
-          newSort.push(x.link);
-          if (Array.isArray(x.children) && x.children.length > 0) {
-            recursion(x.children);
-          }
-        });
-      };
-      recursion(this.navTree);
-
-      Promise.all([this.setNavTree(this.navTree), this.setNavSort(newSort)])
+      Promise.all([
+        this.setNavTree(this.navTree),
+        this.setNavSort([...this.currentNavTreeSort])
+      ])
         .then(() => {})
         .catch(() => {});
     },
@@ -438,17 +482,24 @@ export default {
     },
 
     sortType(link) {
-      if (this.changedLinks[link]) return "warning";
-      if (this.navSort.includes(link)) return "success";
-      return "danger";
+      const originIndex = this.originNavTreeSort.findIndex(x => x === link);
+      const currentIndex = this.currentNavTreeSort.findIndex(x => x === link);
+      if (originIndex === currentIndex) {
+        if (this.navSort.includes(link)) {
+          // 已排序
+          return "success";
+        } else {
+          // 未排序
+          return "info";
+        }
+      }
+      // 排序已改变
+      return "warning";
     },
 
     handleDragEnd(draggingNode, dropNode, dropType, ev) {
       // 拖拽放置未成功
       if (dropType === "none") return;
-
-      this.$set(this.changedLinks, draggingNode.data.link, true);
-      this.$set(this.changedLinks, dropNode.data.link, true);
     },
 
     allowDrop(draggingNode, dropNode, type) {
@@ -496,6 +547,17 @@ export default {
   justify-content: space-between;
   font-size: 14px;
   padding-right: 8px;
+}
+.custom-tree-node-text {
+  padding: 2px 3px;
+}
+.custom-tree-node-text-warning {
+  color: #fff;
+  background-color: #e6a23c;
+}
+.custom-tree-node-text-info {
+  color: #fff;
+  background-color: #909399;
 }
 </style>
 ```
