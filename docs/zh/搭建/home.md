@@ -2,7 +2,7 @@
 
 ## 首页
 
-更新首页代码 docs/.vuepress/theme/components/Home.vue
+首页代码 docs/.vuepress/theme/components/Home.vue
 
 ```vue
 <template>
@@ -306,56 +306,4 @@ export default {
 
 ## 最近更新列表
 
-因为已有官方插件 [last-update](https://vuepress.vuejs.org/zh/plugin/official/plugin-last-updated.html#使用)
-
-所以直接修改 node_modules/@vuepress/plugin-last-updated/index.js
-
-```javascript{4,18,19,20,21,22,23}
-const path = require("path");
-const spawn = require("cross-spawn");
-
-const lastUpdatedOfAllFiles = {};
-
-module.exports = (options = {}, context) => ({
-  extendPageData($page) {
-    const { transformer } = options;
-    const timestamp = getGitLastUpdatedTimeStamp($page._filePath);
-    const $lang = $page._computed.$lang;
-    if (timestamp) {
-      const lastUpdated =
-        typeof transformer === "function"
-          ? transformer(timestamp, $lang)
-          : defaultTransformer(timestamp, $lang);
-      $page.lastUpdated = lastUpdated;
-
-      lastUpdatedOfAllFiles[$page.relativePath] = {
-        title: $page.title || /\/([^/]+)\.md/.exec($page.relativePath)[1],
-        path: $page.path,
-        timestamp
-      };
-      $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles;
-    }
-  }
-});
-
-function defaultTransformer(timestamp, lang) {
-  return new Date(timestamp).toLocaleString(lang);
-}
-
-function getGitLastUpdatedTimeStamp(filePath) {
-  let lastUpdated;
-  try {
-    lastUpdated =
-      parseInt(
-        spawn
-          .sync("git", ["log", "-1", "--format=%at", path.basename(filePath)], {
-            cwd: path.dirname(filePath)
-          })
-          .stdout.toString("utf-8")
-      ) * 1000;
-  } catch (e) {
-    /* do not handle for now */
-  }
-  return lastUpdated;
-}
-```
+详见插件【[最近更新列表](/zh/搭建/plugins.html#最近更新列表)】

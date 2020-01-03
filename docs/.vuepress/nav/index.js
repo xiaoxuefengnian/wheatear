@@ -34,6 +34,8 @@ const excludes = [
 function getDirectoryFiles(currentDirectoryPath) {
   let [excludesFiles, ignoreList, sortList] = [[], [], []];
 
+  const includesFiles = [];
+
   try {
     sortList = fse.readFileSync(`${process.cwd()}/docs/${currentDirectoryPath}/.resources/nav-sort.json`, 'utf-8');
   } catch (error) {
@@ -88,6 +90,7 @@ function getDirectoryFiles(currentDirectoryPath) {
         isPureDirectory: true,
       };
       if (dirent.isFile()) {
+        includesFiles.push(`${path}/${dirent.name}`);
         if (dirent.name === 'README.md') {
           file.text = '';
           file.pathName = '';
@@ -115,8 +118,8 @@ function getDirectoryFiles(currentDirectoryPath) {
       isPureDirectory,
     };
   }
-
-  return func(currentDirectoryPath);
+  
+  return Object.assign(func(currentDirectoryPath), { includesFiles });
 }
 
 /**

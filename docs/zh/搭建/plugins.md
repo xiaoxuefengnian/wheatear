@@ -2,17 +2,17 @@
 
 以本项目 [wheatear](https://github.com/xiaoxuefengnian/wheatear) 为例
 
+## 导航菜单排序
+
 目的
 
-为目录/文件排序提供一个可用的 node 服务器
+将现有的根据 nav-sort.json 对目录树排序的操作进行可视化处理
+
+同时为目录/文件排序提供一个可用的 node 服务器
 
 因为 vuepress 本身在 dev 下已经使用了 webpack-dev-server 作为开发环境的服务器
 
 所以考虑直接使用该 server 而不是再新建一个
-
-## 导航菜单排序
-
-将现有的根据 nav-sort.json 对目录树排序的操作进行可视化处理
 
 ### 开发插件
 
@@ -581,3 +581,119 @@ export default {
 这时，重新启动开发环境即可（会重新分析目录结构，生成 nav-dev.json）
 
 另，本方案可能不是最好的方案，不过可以作为解决方案之一，也相对适合本项目的现有进度
+
+## 最近更新列表
+
+目的
+
+提供一个按更新时间倒序排列的文章快速入口
+
+因为已有官方插件 [last-update](https://vuepress.vuejs.org/zh/plugin/official/plugin-last-updated.html#使用)
+
+所以参考其源码 node_modules/@vuepress/plugin-last-updated/index.js
+
+### 开发插件
+
+新建 docs/.vuepress/plugins/last-updated-files/index.js
+
+```javascript
+const path = require("path");
+const spawn = require("cross-spawn");
+const { includesFiles } = require("../../nav/zh");
+
+const lastUpdatedOfAllFiles = {};
+
+module.exports = (options = {}, context) => ({
+  extendPageData($page) {
+    const timestamp = getGitLastUpdatedTimeStamp($page._filePath);
+    if (includesFiles.includes($page.path) && timestamp) {
+      lastUpdatedOfAllFiles[$page.relativePath] = {
+        title: $page.title || /\/([^/]+)\.md/.exec($page.relativePath)[1],
+        path: $page.path,
+        timestamp
+      };
+      $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles;
+    }
+  }
+});
+
+function getGitLastUpdatedTimeStamp(filePath) {
+  let lastUpdated;
+  try {
+    lastUpdated =
+      parseInt(
+        spawn
+          .sync("git", ["log", "-1", "--format=%at", path.basename(filePath)], {
+            cwd: path.dirname(filePath)
+          })
+          .stdout.toString("utf-8")
+      ) * 1000;
+  } catch (e) {
+    /* do not handle for now */
+  }
+  return lastUpdated;
+}
+```
+
+为了区分开发环境和生产环境
+
+修改 docs/.vuepress/nav/index.js
+
+```javascript
+// ... some code
+let [excludesFiles, ignoreList, sortList] = [[], [], []];
+
+const includesFiles = [];
+
+// ... some code
+
+if (dirent.isFile()) {
+  includesFiles.push(`${path}/${dirent.name}`);
+  if (dirent.name === "README.md") {
+    file.text = "";
+    file.pathName = "";
+    hasReadme = true;
+  } else {
+    file.text = getFileName(dirent);
+  }
+}
+
+// ... some code
+
+// getSort 的返回值修改为
+return Object.assign(func(currentDirectoryPath), { includesFiles });
+```
+
+修改 docs/.vuepress/nav/zh.js 为
+
+```javascript
+const { getDirectoryFiles, getNav, getSidebar } = require("./index");
+
+const { files, includesFiles } = getDirectoryFiles("zh");
+const nav = getNav(files);
+const sidebar = getSidebar(files);
+
+// 可以在这里再次进行处理
+
+module.exports = {
+  nav,
+  sidebar,
+  includesFiles
+};
+```
+
+### 引入插件
+
+在 docs/.vuepress/config.js 中添加
+
+```javascript
+plugins: [
+  [require('./plugins/last-updated-files')],
+],
+```
+
+### 使用插件
+
+考虑直接在首页上展示
+
+详见【[首页](/zh/搭建/home.html#首页)】代码

@@ -4,7 +4,10 @@ const {
   getSidebar,
 } = require('./index');
 
-const { files } = getDirectoryFiles('zh');
+const {
+  files,
+  includesFiles,
+} = getDirectoryFiles('zh');
 const nav = getNav(files);
 const sidebar = getSidebar(files);
 
@@ -13,6 +16,5 @@ const sidebar = getSidebar(files);
 module.exports = {
   nav,
   sidebar,
+  includesFiles,
 };
-
-

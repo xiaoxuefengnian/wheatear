@@ -184,7 +184,8 @@ module.exports = {
     ],
     ['@vuepress/medium-zoom'],
 
-    [require('./plugins/nav-sort-server')]
+    [require('./plugins/nav-sort-server')],
+    [require('./plugins/last-updated-files')],
   ],
 
   /**
