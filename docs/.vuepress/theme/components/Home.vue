@@ -64,6 +64,7 @@
 <script>
 import NavLink from '@parent-theme/components/NavLink.vue';
 import {
+  Icon,
   Link,
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -73,6 +74,7 @@ import moment from 'moment';
 export default {
   components: {
     NavLink,
+    [Icon.name]: Icon,
     [Link.name]: Link,
   },
 
@@ -174,6 +176,7 @@ export default {
 
       .link {
         user-select: none;
+        padding: 2px 0;
 
         > span {
           font-size: 14px;
