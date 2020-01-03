@@ -64,7 +64,8 @@
             ref="tree">
             <span class="custom-tree-node"
               slot-scope="{node, data}">
-              <span :class="`custom-tree-node-${sortType(data.link)}`">
+              <span class="custom-tree-node-text"
+                :class="`custom-tree-node-text-${sortType(data.link)}`">
                 {{data.originName}}
               </span>
               <el-badge :type="sortType(data.link)"
@@ -132,8 +133,7 @@ export default {
       navTree: [],
       navSort: [],
 
-      changedLinks: {},
-      unsortedLinks: {},
+      originNavTreeSort: [],
 
       filterText: '',
     }
@@ -201,11 +201,27 @@ export default {
     },
 
     changedLinksLength() {
-      return Object.entries(this.changedLinks).filter(([link, value]) => value).length;
+      return this.originNavTreeSort.filter((x, i) => {
+        return i !== this.currentNavTreeSort.findIndex(y => y === x)
+      }).length;
     },
 
     unsortedLinksLength() {
-      return Object.entries(this.unsortedLinks).filter(([link, value]) => value).length;
+      return this.currentNavTreeSort.length - this.navSort.length;
+    },
+
+    currentNavTreeSort() {
+      const newSort = [];
+      const recursion = (array) => {
+        array.forEach(x => {
+          newSort.push(x.link);
+          if (Array.isArray(x.children) && x.children.length > 0) {
+            recursion(x.children);
+          }
+        });
+      }
+      recursion(this.navTree);
+      return newSort;
     },
   },
 
@@ -251,23 +267,20 @@ export default {
 
     DefaultValues() {
       return {
-        changedLinks: {},
-        unsortedLinks: {},
+        originNavTreeSort: [],
       }
     },
 
     init() {
-      this.changedLinks = JSON.parse(JSON.stringify(this.DefaultValues().changedLinks));
-      this.unsortedLinks = JSON.parse(JSON.stringify(this.DefaultValues().unsortedLinks));
-
       Promise.all([
         this.getNavTree(),
         this.getNavSort(),
       ])
         .then(() => {
+          this.originNavTreeSort = JSON.parse(JSON.stringify(this.DefaultValues().originNavTreeSort));
           const recursion = (array) => {
             array.forEach(x => {
-              this.$set(this.unsortedLinks, x.link, !this.navSort.includes(x.link));
+              this.originNavTreeSort.push(x.link);
               if (Array.isArray(x.children) && x.children.length > 0) {
                 recursion(x.children);
               }
@@ -336,20 +349,9 @@ export default {
     },
 
     handleSave() {
-      const newSort = [];
-      const recursion = (array) => {
-        array.forEach(x => {
-          newSort.push(x.link);
-          if (Array.isArray(x.children) && x.children.length > 0) {
-            recursion(x.children);
-          }
-        });
-      }
-      recursion(this.navTree);
-
       Promise.all([
         this.setNavTree(this.navTree),
-        this.setNavSort(newSort),
+        this.setNavSort([...this.currentNavTreeSort]),
       ])
         .then(() => { })
         .catch(() => { })
@@ -361,20 +363,25 @@ export default {
     },
 
     sortType(link) {
+      const originIndex = this.originNavTreeSort.findIndex(x => x === link);
+      const currentIndex = this.currentNavTreeSort.findIndex(x => x === link);
+      if (originIndex === currentIndex) {
+        if (this.navSort.includes(link)) {
+          // 已排序
+          return 'success'
+        } else {
+          // 未排序
+          return 'info';
+        }
+      }
       // 排序已改变
-      if (this.changedLinks[link]) return 'warning';
-      // 已排序
-      if (this.navSort.includes(link)) return 'success';
-      // 未排序
-      return 'info';
+      return 'warning';
+
     },
 
     handleDragEnd(draggingNode, dropNode, dropType, ev) {
       // 拖拽放置未成功
       if (dropType === 'none') return;
-
-      this.$set(this.changedLinks, draggingNode.data.link, true);
-      this.$set(this.changedLinks, dropNode.data.link, true);
     },
 
     allowDrop(draggingNode, dropNode, type) {
@@ -423,11 +430,14 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-.custom-tree-node-warning {
+.custom-tree-node-text {
+  padding: 2px 3px;
+}
+.custom-tree-node-text-warning {
   color: #fff;
   background-color: #e6a23c;
 }
-.custom-tree-node-info {
+.custom-tree-node-text-info {
   color: #fff;
   background-color: #909399;
 }

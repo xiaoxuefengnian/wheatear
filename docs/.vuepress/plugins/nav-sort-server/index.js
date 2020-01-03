@@ -17,6 +17,7 @@ const navSortPath = `${targetDirectory}/nav-sort.json`;
 
 module.exports = (options, ctx) => {
   return {
+    name: 'nav-sort-server',
     beforeDevServer(app, server) {
       /**
        * 基于 express
