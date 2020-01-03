@@ -7,14 +7,14 @@ const lastUpdatedOfAllFiles = {};
 module.exports = (options = {}, context) => ({
   extendPageData($page) {
     const timestamp = getGitLastUpdatedTimeStamp($page._filePath)
-    if (includesFiles.includes($page.path) && timestamp) {
+    if (includesFiles.includes($page.relativePath) && timestamp) {
       lastUpdatedOfAllFiles[$page.relativePath] = {
         title: $page.title || /\/([^/]+)\.md/.exec($page.relativePath)[1],
         path: $page.path,
         timestamp,
       }
-      $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles
     }
+    $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles
   }
 })
 
