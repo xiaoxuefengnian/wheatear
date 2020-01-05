@@ -125,3 +125,54 @@ $codeLang = js ts html md vue css sass scss less stylus go java c sh yaml py doc
 ```stylus
 $accentColor = #6190e8
 ```
+
+## 自定义背景色
+
+**2020.01.05**
+
+在 docs/.vuepress/styles/palette.styl 中增加
+
+```stylus
+$borderColor = #d3d3d3;
+// 自定义颜色
+$huyandanhuang = #f5f5d5; // 245, 245, 213
+$huyandanlv = #c7edcc; // 199, 237, 204
+// 自定义配置
+$bgColor = $huyandanhuang;
+```
+
+新增文件 docs/.vuepress/styles/index.styl
+
+```stylus
+@require './palette.styl';
+
+html, body {
+  background-color: $bgColor;
+}
+
+.navbar {
+  background-color: $bgColor;
+
+  .links {
+    background-color: $bgColor;
+  }
+}
+
+.sidebar {
+  background-color: $bgColor;
+}
+
+```
+
+复制默认主题导航组件到 docs/.vuepress/theme/components/Navbar.vue
+
+```stylus
+// 删除以下样式
+.navbar
+  .links
+    background-color white
+```
+
+将对 Navbar.vue 的引用由 @parent-theme 改为 @theme
+
+重启环境后生效

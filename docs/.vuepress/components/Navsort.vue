@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import Navbar from '@parent-theme/components/Navbar.vue'
+import Navbar from '@theme/components/Navbar.vue'
 import Sidebar from '@parent-theme/components/Sidebar.vue'
 import { resolveSidebarItems } from '@theme/util'
 
