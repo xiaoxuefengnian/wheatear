@@ -85,3 +85,9 @@ git rm --cached dir_name/file_name -r
 
 # 提交
 ```
+
+### 查看公钥
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```

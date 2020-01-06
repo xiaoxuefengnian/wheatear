@@ -188,6 +188,10 @@ git pull --rebase origin master
 git push -u origin master
 ```
 
+## GitHub Pages
+
+详见 [GitHub Pages](/zh/搭建/deploy.html#github-pages)
+
 ## 自定义域名
 
 目的
