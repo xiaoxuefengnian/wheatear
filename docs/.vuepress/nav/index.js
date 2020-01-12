@@ -88,6 +88,7 @@ function getDirectoryFiles(currentDirectoryPath) {
         children: undefined,
         hasReadme: undefined,
         isPureDirectory: true,
+        stat: fse.statSync(`${targetPath}/${path}/${dirent.name}`),
       };
       if (dirent.isFile()) {
         includesFiles.push(`${path}/${dirent.name}`);
@@ -118,7 +119,7 @@ function getDirectoryFiles(currentDirectoryPath) {
       isPureDirectory,
     };
   }
-  
+
   return Object.assign(func(currentDirectoryPath), { includesFiles });
 }
 
