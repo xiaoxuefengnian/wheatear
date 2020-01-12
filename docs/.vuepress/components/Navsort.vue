@@ -287,6 +287,7 @@ export default {
             });
           }
           recursion(this.navTree);
+          this.navSort = this.navSort.filter(x => this.originNavTreeSort.includes(x));
         })
         .catch(() => { })
     },
