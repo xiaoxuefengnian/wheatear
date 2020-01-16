@@ -59,7 +59,7 @@ npm --loglevel info install jquery
 
 浏览器中 http://127.0.0.1:8081 中 Browse -- Search -- npm 下可查看已缓存的包
 
-### 常见错误
+### 常见问题
 
 Unable to authenticate, need: BASIC realm="Sonatype Nexus Repository Manager"
 

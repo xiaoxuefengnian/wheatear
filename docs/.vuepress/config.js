@@ -118,8 +118,14 @@ module.exports = {
     // 侧边栏
     sidebar,
 
+    // 是否启用内置搜索, 默认是 false
+    search: true,
+
+    // 内置搜索框显示的搜索结果数量
+    searchMaxSuggestions: 10,
+
     // 最后更新时间
-    lastUpdated: '上次更新', // string | boolean
+    lastUpdated: '最近更新时间', // string | boolean
 
     // 假定是 GitHub. 同时也可以是一个完整的 GitLab URL
     repo: 'xiaoxuefengnian/wheatear',
@@ -140,7 +146,7 @@ module.exports = {
     // repoLabel: '查看源码',
 
     // 默认是 false, 设置为 true 来启用
-    editLinks: true,
+    editLinks: false,
 
     // 默认为 "Edit this page"
     editLinkText: '编辑文档'

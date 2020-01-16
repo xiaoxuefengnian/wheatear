@@ -1,6 +1,8 @@
-# 常见问题
+# visual studio code
 
-## Problems loading reference
+## 常见问题
+
+### Problems loading reference
 
 **Problems loading reference 'https://schemastore.azurewebsites.net/schemas/json/package.json': getaddrinfo ENOTFOUND schemastore.azurewebsites.net schemastore.azurewebsites.net:443**
 
