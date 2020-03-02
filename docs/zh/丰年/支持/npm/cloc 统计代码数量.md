@@ -25,6 +25,12 @@ choco install cloc                     # Windows with Chocolatey
 scoop install cloc                     # Windows with Scoop
 ```
 
+**安装 Perl 执行环境**
+
+Mac OS 系统一般默认已经安装了 Perl
+
+Widows 系统上手动安装 Perl [下载地址](http://strawberryperl.com)
+
 ## 使用
 
 **a file**
