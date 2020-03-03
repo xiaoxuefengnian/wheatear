@@ -697,3 +697,48 @@ plugins: [
 考虑直接在首页上展示
 
 详见【[首页](/zh/搭建/home.html#首页)】代码
+
+## 优化
+
+**2020.03.03**
+
+添加最近发布列表
+
+-- 将 git log 的第一条记录的时间作为文件的发布时间
+
+优化最近更新列表规则
+
+-- 将更新时间和发布时间相等的排除
+
+主要代码
+
+docs/.vuepress/plugins/last-updated-files/index.js 中新增
+
+```javascript
+function getGitFirstTrackedTimeStamp(filePath) {
+  let firstTracked;
+  try {
+    // 1565602676\n1565548863\n1565539297\n
+    const tracked = spawn
+      .sync("git", ["log", "--format=%at", path.basename(filePath)], {
+        cwd: path.dirname(filePath)
+      })
+      .stdout.toString("utf-8")
+      .split("\n");
+    firstTracked = parseInt(tracked[tracked.length - 2]) * 1000;
+  } catch (e) {
+    /* do not handle for now */
+  }
+  return firstTracked;
+}
+```
+
+完整代码
+
+<<< @/docs/.vuepress/plugins/last-updated-files/index.js
+
+在 docs/.vuepress/theme/components/Home.vue 中增加最近发布列表
+
+完整代码
+
+<<< @/docs/.vuepress/theme/components/Home.vue

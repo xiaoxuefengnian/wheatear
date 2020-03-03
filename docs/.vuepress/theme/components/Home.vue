@@ -22,6 +22,23 @@
       </header>
 
       <section class="last-updated-files">
+        <h3>最近发布</h3>
+
+        <div class="links">
+          <div class="link"
+            v-for="(link, index) in lastCreatedFiles"
+            :key="index">
+            <span>
+              {{moment(link.createTimestamp).format('YYYY年MM月DD日')}}
+            </span>
+            <i class="el-icon-d-arrow-right"></i>
+            <el-link :href="link.path"
+              :underline="false">
+              {{`${link.title}`}}
+            </el-link>
+          </div>
+        </div>
+
         <h3>最近更新</h3>
 
         <div class="links">
@@ -90,11 +107,20 @@ export default {
       }
     },
 
+    lastCreatedFiles() {
+      return this.$page.lastUpdatedOfAllFiles
+        ? Object.values(this.$page.lastUpdatedOfAllFiles)
+          .sort((a, b) => b.createTimestamp - a.createTimestamp)
+          .slice(0, 10)
+        : []
+    },
+
     lastUpdatedFiles() {
       return this.$page.lastUpdatedOfAllFiles
         ? Object.values(this.$page.lastUpdatedOfAllFiles)
+          .filter((a, b) => b.timestamp !== a.timestamp)
           .sort((a, b) => b.timestamp - a.timestamp)
-          .slice(0, 10)
+          .slice(0, 5)
         : []
     }
   },
@@ -167,7 +193,7 @@ export default {
   }
 
   .last-updated-files {
-    margin-top: 10rem;
+    margin-top: 0rem;
     margin-left: 2rem;
 
     .links {
