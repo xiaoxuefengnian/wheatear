@@ -196,6 +196,10 @@ export default {
     margin-top: 0rem;
     margin-left: 2rem;
 
+    h3 {
+      margin: 2rem 0 0.5rem;
+    }
+
     .links {
       max-height: 360px;
       overflow: auto;
