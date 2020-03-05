@@ -209,11 +209,12 @@ export default {
         padding: 2px 0;
 
         > span {
-          font-size: 14px;
+          font-size: 12px;
           color: #909399;
         }
 
         > i {
+          font-size: 12px;
           color: #909399;
         }
       }
