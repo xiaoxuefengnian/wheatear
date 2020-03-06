@@ -4,6 +4,8 @@
 
 基于 vuepress 1.0.3 [文档](https://v1.vuepress.vuejs.org/zh/)
 
+后续版本升级详见【[升级](/zh/搭建/update.html)】
+
 ## 准备工作
 
 ```bash
@@ -282,7 +284,7 @@ themeConfig: {
 
   // 默认是 false, 设置为 true 来启用
   editLinks: true,
-  
+
   // 默认为 "Edit this page"
   editLinkText: '编辑文档'
 }
