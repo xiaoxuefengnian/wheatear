@@ -1,7 +1,9 @@
 <template>
   <main class="home"
     aria-labelledby="main-title">
-    <div class="main-content">
+
+    <section class="main-content">
+      <!-- hero -->
       <header class="hero">
         <img v-if="data.heroImage"
           :src="$withBase(data.heroImage)"
@@ -21,9 +23,9 @@
         </p>
       </header>
 
-      <section class="last-updated-files">
+      <!-- 最近发布列表 最近更新列表 -->
+      <div class="last-updated-files">
         <h3>最近发布</h3>
-
         <div class="links">
           <div class="link"
             v-for="(link, index) in lastCreatedFiles"
@@ -40,7 +42,6 @@
         </div>
 
         <h3>最近更新</h3>
-
         <div class="links">
           <div class="link"
             v-for="(link, index) in lastUpdatedFiles"
@@ -55,10 +56,10 @@
             </el-link>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
 
-    <div class="features"
+    <section class="features"
       v-if="data.features && data.features.length">
       <div class="feature"
         v-for="(feature, index) in data.features"
@@ -67,7 +68,7 @@
         <p v-for="(detail, detailIndex) in feature.details"
           :key="detailIndex">{{ detail }}</p>
       </div>
-    </div>
+    </section>
 
     <Content class="theme-default-content custom" />
 

@@ -56,7 +56,7 @@ module.exports = {
    * 类型: string
    * 默认值: /path/to/@vuepress/core/.temp
    */
-  temp: '/path/to/@vuepress/core/.temp',
+  temp: 'node_modules/@vuepress/core/.temp',
 
   /**
    * 指定 vuepress build 的输出目录
