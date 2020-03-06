@@ -119,7 +119,7 @@ export default {
     lastUpdatedFiles() {
       return this.$page.lastUpdatedOfAllFiles
         ? Object.values(this.$page.lastUpdatedOfAllFiles)
-          .filter((a, b) => b.timestamp !== a.timestamp)
+          .filter((x) => x.timestamp !== x.createTimestamp)
           .sort((a, b) => b.timestamp - a.timestamp)
           .slice(0, 5)
         : []
