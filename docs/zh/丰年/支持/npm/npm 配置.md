@@ -1,4 +1,4 @@
-# 配置 config
+# npm 配置
 
 使用 npm config ls 可以查看 npm 的配置信息如下
 
