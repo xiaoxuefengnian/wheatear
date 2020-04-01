@@ -1,8 +1,13 @@
 // colors
-$accentColor = #6190e8;
-$borderColor = #d3d3d3;
+$accentColor = #6190e8
+$borderColor = #d3d3d3
 // 自定义颜色
-$huyandanhuang = #f5f5d5; // 245, 245, 213
-$huyandanlv = #c7edcc; // 199, 237, 204
+$huyandanhuang = #f5f5d5 // 245, 245, 213
+$huyandanlv = #c7edcc // 199, 237, 204
 // 自定义配置
-$bgColor = $huyandanhuang;
+$bgColor = $huyandanhuang
+
+// 覆盖 markdown 表格偶数行的背景色
+if ($bgColor)
+  table tr:nth-child(2n)
+    background-color: $bgColor !important
