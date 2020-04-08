@@ -16,7 +16,9 @@ module.exports = (options = {}, context) => ({
         createTimestamp,
       }
     }
-    $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles
+
+    $page.createTimestamp = createTimestamp;
+    $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles;
   }
 })
 

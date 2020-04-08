@@ -125,7 +125,7 @@ module.exports = {
     searchMaxSuggestions: 10,
 
     // 最后更新时间
-    lastUpdated: '最近更新时间', // string | boolean
+    lastUpdated: '更新时间', // string | boolean
 
     // 假定是 GitHub. 同时也可以是一个完整的 GitLab URL
     repo: 'xiaoxuefengnian/wheatear',
