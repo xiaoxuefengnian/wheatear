@@ -250,3 +250,5 @@ export default {
 ```
 
 在 docs/.vuepress/theme/components/Home.vue 中引入使用即可
+
+另外推荐一篇虽然没有实际用到，却相关且写得很好的文章 [WebGL 绘制详解之七：Blend](http://www.jiazhengblog.com/blog/2017/01/04/2989/)
