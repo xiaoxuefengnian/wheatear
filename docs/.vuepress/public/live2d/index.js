@@ -13062,9 +13062,9 @@ var LAppView = /** @class */ (function () {
         this._viewMatrix = null;
         this._touchManager = null;
         this._deviceToScreen = null;
-        this._gear.release();
+        // this._gear.release();
         this._gear = null;
-        this._back.release();
+        // this._back.release();
         this._back = null;
         _lappdelegate__WEBPACK_IMPORTED_MODULE_5__["gl"].deleteProgram(this._programId);
         this._programId = null;

@@ -194,12 +194,16 @@ LAppDefine.BackImageName = "back_class_normal.png";
 LAppDefine.GearImageName = "icon_gear.png";
 
 // 取消背景图片及按钮的渲染
-注释掉;
+// 注释掉
 this._view.initializeSprite();
-注释掉;
+// 注释掉
 if (this._gear.isHit(pointX, pointY)) {
   live2DManager.nextScene();
 }
+// 注释掉
+this._gear.release();
+// 注释掉
+this._back.release();
 
 // 渲染透明背景
 // 修改 LAppDelegate.prototype.run 中的 gl.clearColor 参数
