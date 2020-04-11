@@ -100,7 +100,7 @@ Demo 目录结构
 │   ├── Rice
 │   ├── back_class_normal.png
 │   └── icon_gear.png
-├── dist
+├── dist                      // 执行 npm run build-samp 后产生
 │   └── index.js
 ├── index.html
 ├── src
@@ -146,3 +146,107 @@ LAppDefine.ModelDir = ["Haru", "Hiyori", "Mark", "Natori", "Rice"];
 [给博客添加能动的看板娘(Live2D)-模型格式 v3 转 v2](https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-03)
 
 [EYHN/hexo-helper-live2d](https://github.com/EYHN/hexo-helper-live2d)
+
+## 更新
+
+**2020.04.11**
+
+本来是打算把源码看懂并添加一些功能再使用的
+
+但拖到现在也没有能把源码完整地读一遍，就先放上来吧
+
+因为 Demo 目录放到服务器下后可直接使用，所以只需将其融合进项目中
+
+这里只选取了上面 Demo 中的 Rice 展示在【[首页](/)】
+
+在 CubismSdkForWeb-4-beta.2 中删除 Demo/Resources 下的其他模型
+
+然后执行 npm run build-samp
+
+在 docs/.vuepress/public/ 下新建 live2d 目录，结构为
+
+```
+.
+├── Resources                 // 取自 Demo 目录
+│   └── Rice
+├── index.js                  // 取自 Demo 目录
+└── live2dcubismcore.min.js   // 取自 CubismSdkForWeb-4-beta.2/Core 目录
+```
+
+修改这里的 index.js
+
+```javascript
+// 资源目录位置 必改
+LAppDefine.ResourcesPath = "/live2d/Resources/";
+
+// 模型目录名称 必改
+LAppDefine.ModelDir = ["Rice"];
+
+// debug 开关 选改
+LAppDefine.DebugLogEnable = true;
+LAppDefine.DebugTouchLogEnable = false;
+
+/* 因期望透明背景，所以同时做了如下修改 */
+
+// 背景图片名称 选改 这里不需要背景，所以可以不改
+LAppDefine.BackImageName = "back_class_normal.png";
+// 按钮图片名称 选改 这里不需要按钮，所以可以不改
+LAppDefine.GearImageName = "icon_gear.png";
+
+// 取消背景图片及按钮的渲染
+注释掉;
+this._view.initializeSprite();
+注释掉;
+if (this._gear.isHit(pointX, pointY)) {
+  live2DManager.nextScene();
+}
+
+// 渲染透明背景
+// 修改 LAppDelegate.prototype.run 中的 gl.clearColor 参数
+gl.clearColor(0.0, 0.0, 0.0, 0.0);
+```
+
+新建 docs/.vuepress/theme/components/live2d.vue
+
+```vue
+<template>
+  <div class="canvas-container">
+    <canvas id="SAMPLE" :width="width" :height="height">
+      このブラウザは
+      <code>&lt;canvas&lt;</code>要素をサポートしていません。
+    </canvas>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      width: 1900,
+      height: 1000
+    };
+  },
+  mounted() {
+    const addScript = js => {
+      const localJs = document.createElement("script");
+      localJs.setAttribute("src", `/live2d/${js}`);
+      document.head.appendChild(localJs);
+    };
+
+    ["live2dcubismcore.min.js", "index.js"].forEach(x => addScript(x));
+  }
+};
+</script>
+
+<style lang="stylus" scope>
+.canvas-container
+  width: 100%
+  height: 100%
+
+  > canvas
+    width: 100%
+    height: 100%
+</style>
+```
+
+在 docs/.vuepress/theme/components/Home.vue 中引入使用即可

@@ -25,12 +25,6 @@ export default {
     }
 
     ['live2dcubismcore.min.js', 'index.js'].forEach(x => addScript(x));
-
-    // const handleCanvasSize = () => {
-    //   this.width = document.documentElement.clientWidth;
-    //   this.height = document.documentElement.clientHeight
-    // }
-    // window.addEventListener('resize', handleCanvasSize, false)
   }
 }
 </script>
