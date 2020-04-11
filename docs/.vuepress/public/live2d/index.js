@@ -11525,8 +11525,8 @@ var LAppDelegate = /** @class */ (function () {
         // load model
         _lapplive2dmanager__WEBPACK_IMPORTED_MODULE_5__["LAppLive2DManager"].getInstance();
         // default proj
-        // var projection = new Csm_CubismMatrix44();
-        // _lapppal__WEBPACK_IMPORTED_MODULE_3__["LAppPal"].updateTime();
+        var projection = new Csm_CubismMatrix44();
+        _lapppal__WEBPACK_IMPORTED_MODULE_3__["LAppPal"].updateTime();
         // this._view.initializeSprite();
     };
     return LAppDelegate;
