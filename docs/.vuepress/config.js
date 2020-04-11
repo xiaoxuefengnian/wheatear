@@ -162,7 +162,6 @@ module.exports = {
     // lineNumbers: true
   },
 
-
   /**
    * 插件
    * 类型: Object|Array
@@ -193,6 +192,8 @@ module.exports = {
     [require('./plugins/nav-sort-server')],
     [require('./plugins/last-updated-files')],
   ],
+  
+  configureWebpack: {},
 
   /**
    * 如果你的对象只有那些 “常青树” 浏览器，你可以将其设置成 true

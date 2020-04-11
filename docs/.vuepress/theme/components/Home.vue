@@ -72,6 +72,11 @@
 
     <Content class="theme-default-content custom" />
 
+    <!-- live2d -->
+    <section class="live2d-container">
+      <live2d class="live2d"></live2d>
+    </section>
+
     <div class="footer"
       v-if="data.footer">
       {{ data.footer }}
@@ -88,12 +93,14 @@ import {
 import 'element-ui/lib/theme-chalk/index.css';
 
 import moment from 'moment';
+import live2d from '@theme/components/live2d.vue'
 
 export default {
   components: {
     NavLink,
     [Icon.name]: Icon,
     [Link.name]: Link,
+    live2d,
   },
 
   computed: {
@@ -200,7 +207,7 @@ export default {
       user-select: none
       padding: 2px 0
 
-      > span 
+      > span
         display: inline-block
         width: 100px
         font-size: 12px
@@ -220,6 +227,13 @@ export default {
   align-items: flex-start
   align-content: stretch
   justify-content: space-between
+
+.live2d-container
+  position: fixed
+  right: 0px
+  bottom: 20px
+  width: 380px
+  height: 200px
 
 .feature
   flex-grow: 1
@@ -250,14 +264,14 @@ export default {
   .home
     .hero
       width: 100%
-  
+
     .last-updated-files
       width: 100%
       margin-top: 0
-  
+
     .features
       flex-direction: column
-  
+
     .feature
       max-width: 100%
       padding: 0 2.5rem
@@ -265,31 +279,31 @@ export default {
 @media (max-width: $MQMobileNarrow)
   .home
     padding-left: 1.5rem
-    padding-right: 1.5rem  
+    padding-right: 1.5rem
 
     .hero
-      width: 100%  
+      width: 100%
 
       img
         max-height: 210px
-        margin: 2rem auto 1.2rem  
+        margin: 2rem auto 1.2rem
 
       h1
-        font-size: 2rem  
+        font-size: 2rem
 
       h1, .description, .action
-        margin: 1.2rem auto  
+        margin: 1.2rem auto
 
       .description
-        font-size: 1.2rem  
+        font-size: 1.2rem
 
       .action-button
         font-size: 1rem
-        padding: 0.6rem 1.2rem  
+        padding: 0.6rem 1.2rem
 
     .last-updated-files
       width: 100%
-      margin-top: 0  
+      margin-top: 0
 
     .feature
       h2
