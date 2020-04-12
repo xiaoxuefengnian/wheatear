@@ -257,7 +257,7 @@ themeConfig = {
 
 ## 优化
 
-**2019.12.06**
+### 2019.12.06
 
 通过修改文件名（添加 x. 前缀）的方式排序一直隐隐觉得不合理
 
@@ -531,3 +531,54 @@ module.exports = {
 采用 node 而不使用 [FileSaver.js](https://github.com/eligrey/FileSaver.js/) 的原因是 FileSaver.js 无法直接保存至指定位置
 
 :::
+
+### 2020.04.12
+
+继续优化文件排序设置
+
+当前添加文件时需要重启才能在设置页面看到新的文件
+
+期望是不需要重启就能看到
+
+经测试发现可以借用 vuepress 基本配置里的 extraWatchFiles 完成
+
+extraWatchFiles 指定额外的需要被监听的文件，变动将会触发 `vuepress` 重新构建，并实时更新。
+
+修改 docs/.vuepress/config.js
+
+```javascript
+/*
+ * 将原写于 ./nav/zh 的逻辑直接放到这里来
+ * 原因是原写法在 vuepress 重新构建时，
+ * 不会触发对于 ./nav/index 的重新调用，
+ * 也就没有更新目录变动信息
+ */
+
+// const { nav, sidebar } = require('./nav/zh');
+
+const {
+  getDirectoryFiles,
+  getNav,
+  getSidebar,
+} = require('./nav/index');
+
+const {
+  files,
+} = getDirectoryFiles('zh');
+const nav = getNav(files);
+const sidebar = getSidebar(files);
+
+/*
+ * 监听 nav-sort.json
+ * 点击保存 -> 覆写 nav-sort.json -> 触发重新构建
+ */
+module.exports = {
+  ...,
+  extraWatchFiles: [
+    'zh/.resources/nav-sort.json'
+  ],
+  ...,
+}
+```
+
+经测试，可行

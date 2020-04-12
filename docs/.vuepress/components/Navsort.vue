@@ -354,7 +354,9 @@ export default {
         this.setNavTree(this.navTree),
         this.setNavSort([...this.currentNavTreeSort]),
       ])
-        .then(() => { })
+        .then(() => {
+          Message.success('排序保存成功');
+        })
         .catch(() => { })
     },
 

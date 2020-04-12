@@ -1,4 +1,16 @@
-const { nav, sidebar } = require('./nav/zh');
+// const { nav, sidebar } = require('./nav/zh');
+
+const {
+  getDirectoryFiles,
+  getNav,
+  getSidebar,
+} = require('./nav/index');
+
+const {
+  files,
+} = getDirectoryFiles('zh');
+const nav = getNav(files);
+const sidebar = getSidebar(files);
 
 module.exports = {
   /**
@@ -96,6 +108,7 @@ module.exports = {
   extraWatchFiles: [
     // '.vuepress/nav/en.js',
     '.vuepress/nav/zh.js',
+    'zh/.resources/nav-sort.json'
   ],
 
   /**
