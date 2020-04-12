@@ -128,7 +128,7 @@ $accentColor = #6190e8
 
 ## 自定义背景色
 
-**2020.01.05**
+### 2020.01.05
 
 在 docs/.vuepress/styles/palette.styl 中增加
 

@@ -149,7 +149,7 @@ LAppDefine.ModelDir = ["Haru", "Hiyori", "Mark", "Natori", "Rice"];
 
 ## 更新
 
-**2020.04.11**
+### 2020.04.11
 
 本来是打算把源码看懂并添加一些功能再使用的
 

@@ -45,9 +45,11 @@ import { resolveSidebarItems } from '../util'
 import BaiduTongji from '@theme/analysis/BaiduTongji.vue'
 
 export default {
-  components: {    Home, Page, Sidebar, Navbar,
+  components: {
+    Home, Page, Sidebar, Navbar,
     // Gitalk,
-    BaiduTongji  },
+    BaiduTongji
+  },
 
   data() {
     return {
