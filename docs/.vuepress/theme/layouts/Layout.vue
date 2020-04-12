@@ -1,23 +1,34 @@
 <template>
-  <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
+  <div class="theme-container"
+    :class="pageClasses"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd">
 
     <BaiduTongji></BaiduTongji>
 
-    <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
+    <Navbar v-if="shouldShowNavbar"
+      @toggle-sidebar="toggleSidebar" />
 
-    <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
+    <div class="sidebar-mask"
+      @click="toggleSidebar(false)"></div>
 
-    <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
-      <slot name="sidebar-top" slot="top" />
-      <slot name="sidebar-bottom" slot="bottom" />
+    <Sidebar :items="sidebarItems"
+      @toggle-sidebar="toggleSidebar">
+      <slot name="sidebar-top"
+        slot="top" />
+      <slot name="sidebar-bottom"
+        slot="bottom" />
     </Sidebar>
 
     <Home v-if="$page.frontmatter.home" />
 
-    <Page v-else :sidebar-items="sidebarItems">
-      <slot name="page-top" slot="top" />
-      <slot name="page-bottom" slot="bottom">
-        <Gitalk></Gitalk>
+    <Page v-else
+      :sidebar-items="sidebarItems">
+      <slot name="page-top"
+        slot="top" />
+      <slot name="page-bottom"
+        slot="bottom">
+        <!-- <Gitalk></Gitalk> -->
       </slot>
     </Page>
   </div>
@@ -30,11 +41,13 @@ import Page from '@theme/components/Page.vue'
 import Sidebar from '@parent-theme/components/Sidebar.vue'
 import { resolveSidebarItems } from '../util'
 
-import Gitalk from '@theme/components/Gitalk.vue'
+// import Gitalk from '@theme/components/Gitalk.vue'
 import BaiduTongji from '@theme/analysis/BaiduTongji.vue'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar, Gitalk, BaiduTongji },
+  components: {    Home, Page, Sidebar, Navbar,
+    // Gitalk,
+    BaiduTongji  },
 
   data() {
     return {

@@ -2,9 +2,7 @@
 
 以本项目 [wheatear](https://github.com/xiaoxuefengnian/wheatear) 为例
 
-目的
-
-加入评论功能
+目的 加入评论功能
 
 ## Gitalk
 
@@ -165,3 +163,9 @@ Page, Sidebar, Navbar, Gitalk }
 回复 401(Unauthorized)
 
 处理 退出 github 账户的登录，再从评论处登录，会跳转到授权页面，用对这个评论仓库有写权限的用户（如 config.admin 中的一个）登录进行授权。
+
+### 更新
+
+**2020.04.12**
+
+因为 github 的获取评论接口在国内不稳定，所以暂时不显示评论功能
