@@ -19,3 +19,14 @@ html, body {
 
 .page
   padding-left $sidebarWidth
+
+
+@media (min-width: ($MQMobile + 1px))
+  .theme-container.no-sidebar
+    .sidebar
+      display none
+
+    .page
+      padding-left 0
+
+@require 'mobile.styl'
