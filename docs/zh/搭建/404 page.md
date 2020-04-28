@@ -39,3 +39,30 @@ Tencent CDC 关于 404 页面的思考 [Hello! 404](https://cdc.tencent.com/2010
 ### 访问体验
 
 文案使用动画按序延迟加载
+
+## 页面
+
+新建 docs/.vuepress/theme/layouts/404.vue
+
+写出自己喜欢的 404 页面就好了，这里就不贴代码了
+
+## 常见问题
+
+### GitHub Pages 或 Gitee Pages 部署后 404 页面不生效
+
+GitHub Pages 官方文档 [为 GitHub Pages 站点创建自定义 404 页面](https://help.github.com/cn/github/working-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site)
+
+Gitee Pages 官方解答 [常见问题 -- 如何自定义404](https://gitee.com/help/articles/4136#article-header1)
+
+根源在于 build 后的 dist 根目录下没有 404.html
+
+```
+.
+├── assets
+├── img
+├── index.html
+├── live2d
+└── zh
+```
+
+而 vuepress 在开发环境下是可以显示我们设置的 404.vue 的

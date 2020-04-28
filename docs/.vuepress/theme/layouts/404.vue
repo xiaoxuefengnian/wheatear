@@ -65,14 +65,14 @@ export default {
 
   },
   computed: {
-    newestFiles() {
-      // TODO: 获取不到 $page 后续处理
-      return this.$page.lastUpdatedOfAllFiles
-        ? Object.values(this.$page.lastUpdatedOfAllFiles)
-          .sort((a, b) => b.timestamp - a.timestamp)
-          .slice(0, 10)
-        : []
-    },
+    // newestFiles() {
+    //   // TODO: 获取不到 $page 后续处理
+    //   return this.$page.lastUpdatedOfAllFiles
+    //     ? Object.values(this.$page.lastUpdatedOfAllFiles)
+    //       .sort((a, b) => b.timestamp - a.timestamp)
+    //       .slice(0, 10)
+    //     : []
+    // },
   }
 }
 </script>

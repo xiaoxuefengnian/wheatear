@@ -18,7 +18,11 @@ module.exports = (options = {}, context) => ({
     }
 
     $page.createTimestamp = createTimestamp;
-    $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles;
+
+    // 只有 home 页用到
+    if ($page.path === '/') {
+      $page.lastUpdatedOfAllFiles = lastUpdatedOfAllFiles;
+    }
   }
 })
 
