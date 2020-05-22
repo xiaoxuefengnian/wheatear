@@ -1,4 +1,4 @@
-# 搭建
+# 搭建 vuepress 静态网站
 
 以本项目 [wheatear](https://github.com/xiaoxuefengnian/wheatear) 为例
 
