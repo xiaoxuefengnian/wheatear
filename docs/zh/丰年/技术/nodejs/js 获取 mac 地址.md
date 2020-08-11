@@ -19,3 +19,17 @@ Require: const pkg = require('getmac').default
 ```javascript
 const mac = pkg();
 ```
+
+查本机 mac
+
+windows
+
+```bash
+getmac
+```
+
+macos
+
+```bash
+ifconfig en0 ether
+```
