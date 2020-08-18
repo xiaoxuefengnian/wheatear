@@ -71,6 +71,8 @@ webPreferences: {
 }
 ```
 
+注意 package-mac 指令使用的 icon 必须是 icns 图标 [mac 生成 icns 图标](/zh/分类/系统/mac/mac%20生成%20icns%20图标.html)
+
 . 打包目录为当前目录
 
 electron-tutorial-app 应用名称
