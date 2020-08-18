@@ -47,3 +47,20 @@ npm cache clean -f
 # 验证缓存数据的有效性和完整性，清理垃圾数据
 npm cache verify
 ```
+
+## unsafe-perm
+
+官方含义
+
+- Default: false if running as root, true otherwise
+- Type: Boolean
+
+Set to true to suppress the UID/GID switching when running package scripts. If set explicitly to false, then installing as a non-root user will fail.
+
+摘自网络回答 [链接](https://segmentfault.com/q/1010000019365121)
+
+> 就是说 npm 出于安全考虑不支持以 root 用户运行，即使你用 root 用户身份运行了，npm 会自动转成一个叫 nobody 的用户来运行，而这个用户几乎没有任何权限。这样的话如果你脚本里有一些需要权限的操作，比如写文件（尤其是写 /root/.node-gyp），就会崩掉了。
+>
+> 为了避免这种情况，要么按照 npm 的规矩来，专门建一个用于运行 npm 的高权限用户；要么加 --unsafe-perm 参数，这样就不会切换到 nobody 上，运行时是哪个用户就是哪个用户，即使是 root。
+
+默认 false 会在某些依赖包安装时提示权限不足。
