@@ -1,5 +1,12 @@
 # mac 自带 svn
 
+::: warning
+在 xcode 某次更新后（比如 12.0.1 版本），自带 svn 已无法使用。<br />
+The subversion command line tools are no longer provided by Xcode。<br />
+需自行安装。<br />
+brew install subversion
+:::
+
 ## 1.1 mac 自带 svn
 
 在 Windows 环境中，我们一般使用 TortoiseSVN 来搭建 svn 环境。在 Mac 环境下，由于 Mac 自带了 svn 的服务器端和客户端功能，所以我们可以在不装任何第三方软件的前提下使用 svn 功能，不过还需做一下简单的配置。
