@@ -9,6 +9,7 @@
   },
   "scripts": {
     "docs:dev": "vuepress dev docs --no-clear-screen -- development",
+    "docs:prod": "vuepress dev docs --no-clear-screen -- production",
     "docs:build": "vuepress build docs -- production",
     "deploy": "bash deploy.sh"
   },
