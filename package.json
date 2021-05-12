@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.2",
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "browserslist": "^4.14.0",
     "caniuse-lite": "^1.0.30001113",
     "core-js": "2.6.9",
